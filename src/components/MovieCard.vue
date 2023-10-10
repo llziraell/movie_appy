@@ -1,18 +1,22 @@
 <script setup>
+import { defineProps } from "vue"
+const { props } = defineProps(["movieData"])
 </script>
 
 <template>
     <div class="movie" @click.prevent="$router.push(`${'film'}`)">
         <div class="movie__cover-inner">
             <img
+                :src="movieData.poster.previewUrl"
                 class="movie__cover"
             />
             <div class="movie__cover--darkened"></div>
         </div>
         <div class="movie__info">
-            <div class="movie__title"></div>
-            <div class="movie__category"></div>
+            <div class="movie__title">{{ movieData.name }}</div>
+            <div class="movie__category">{{ movieData.year }}</div>
             <div class="movie__average movie__average--green">
+                {{ movieData.rating.imdb }}
             </div>
         </div>
     </div>

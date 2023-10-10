@@ -1,6 +1,9 @@
 <script setup>
-import MainBlock from '@/components/MainBlock.vue'
-import MovieCard from '@/components/MovieCard.vue'
+import MainBlock from "@/components/MainBlock.vue"
+import MovieCard from "@/components/MovieCard.vue"
+
+import { useFilmStore } from "@/stores/FilmStore"
+const Films = useFilmStore()
 </script>
 
 <template>
@@ -8,13 +11,15 @@ import MovieCard from '@/components/MovieCard.vue'
         <template #header></template>
         <template #container>
             <div class="movies overflow-auto">
-                    <movie-card>
-                        
-                    </movie-card>
-                </div>
+                <movie-card  v-if="Films.films"
+                    debounce="500"
+                    v-for="(movie, index) in Films.films"
+                    :key="index"
+                    :movieData="movie"
+                />
+            </div>
         </template>
-        <template #footer>
-        </template>
+        <template #footer> </template>
     </main-block>
 </template>
 
