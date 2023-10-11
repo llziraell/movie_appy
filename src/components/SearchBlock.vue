@@ -1,0 +1,46 @@
+<script setup>
+import { ref,  watch} from "vue"
+import { useFilmStore } from "@/stores/FilmStore"
+const Films = useFilmStore()
+
+const inputFilm = ref("")
+
+watch(
+    () => Films.selectedName,
+    (newVal) => {
+        inputFilm.value = newVal
+    }
+)
+</script>
+
+<template>
+    <b-nav-form style="margin-left: 15px">
+        <b-dropdown
+            toggle-class="text-decoration-none"
+            no-caret
+        >
+            <template #button-content>
+                <b-form-input
+                    type="text"
+                    v-model="inputFilm"
+                    style="margin-right: 5px; width: 25vw"
+                    size="sm"
+                    placeholder="Ищу фильм..."
+                    @input="Films.searchFilms(inputFilm)"
+                ></b-form-input>
+            </template>
+            <b-dropdown-item
+                v-for="filmName in Films.searchedFilms"
+                @click="Films.searchFilmName(filmName.name)"
+                >{{ filmName.name }}</b-dropdown-item
+            >
+        </b-dropdown>
+    </b-nav-form>
+</template>
+
+<style scoped>
+.dropdown-container {
+    max-height: 200px;
+    overflow-y: auto;
+}
+</style>

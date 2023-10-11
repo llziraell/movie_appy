@@ -1,4 +1,10 @@
-<script setup></script>
+<script setup>
+import SearchBlock from "@/components/SearchBlock.vue";
+import { useFilmStore } from "@/stores/FilmStore"
+import {ref} from 'vue'
+const Films = useFilmStore()
+
+</script>
 
 <template>
     <b-navbar
@@ -16,11 +22,6 @@
                 Избранное
             </b-nav-item>
         </b-navbar-nav>
-        <b-navbar-nav>
-            <b-dropdown-item href="#">год</b-dropdown-item>
-            <b-dropdown-item href="#">рейтинг</b-dropdown-item>
-            <b-dropdown-item href="#">хронометраж</b-dropdown-item>
-            <search-block></search-block>
-        </b-navbar-nav>
+        <search-block></search-block>
     </b-navbar>
 </template>
