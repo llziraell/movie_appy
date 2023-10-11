@@ -7,6 +7,7 @@ import { useFilmStore } from "./FilmStore"
 
 export const useSortFilmStore = defineStore("SortFilms", {
     state: () => ({
+        films: [],
         sortedFilms: [],
         minYear: 0,
         maxYear: 0,
@@ -18,32 +19,57 @@ export const useSortFilmStore = defineStore("SortFilms", {
     actions: {
         getSortParameters() {
             const Films = useFilmStore()
-            this.sortedFilms = Films.films
+            this.films = Films.films
 
             if (Films.films) {
-
                 //год
-                const minYear = this.sortedFilms.reduce((min, cur) => {
+                const minYear = this.films.reduce((min, cur) => {
                     return cur.year < min.year ? cur : min
-                }, this.sortedFilms[0])
+                }, this.films[0])
                 this.minYear = minYear.year
 
-                const maxYear = this.sortedFilms.reduce((max, cur) => {
+                const maxYear = this.films.reduce((max, cur) => {
                     return cur.year > max.year ? cur : max
-                }, this.sortedFilms[0])
+                }, this.films[0])
                 this.maxYear = maxYear.year
 
                 //хроно
-                const minTime = this.sortedFilms.reduce((min, cur) => {
+                const minTime = this.films.reduce((min, cur) => {
                     return cur.movieLength < min.movieLength ? cur : min
-                }, this.sortedFilms[0])
+                }, this.films[0])
                 this.minTime = minTime.movieLength
 
-                const maxTime = this.sortedFilms.reduce((max, cur) => {
+                const maxTime = this.films.reduce((max, cur) => {
                     return cur.movieLength > max.movieLength ? cur : max
-                }, this.sortedFilms[0])
+                }, this.films[0])
                 this.maxTime = maxTime.movieLength
             }
+        },
+        sortFilms(year, mark, time) {
+            if (year) {
+                console.log(this.films)
+                const sortedByYear = this.films.filter((movie) =>{ 
+                    movie.year === Number(year)
+                })
+                //console.log(typeof(Number(year)))
+                if (sortedByYear) {
+                    this.sortedFilms = sortedByYear
+                console.log(this.sortedFilms)
+                }     
+            }
+            if (mark) {
+                const sortedByMark = this.films.filter((movie) =>{ 
+                    movie.rating.imdb <= (mark) && movie.rating.imdb >= (mark - 1)
+                })
+                this.sortedFilms = sortedByMark
+            }
+            if (time) {
+                const sortedByTime = this.films.filter((movie) =>{ 
+                    movie.movieLength <= (time+10) && movie.movieLength >= (time - 10)
+                })
+                this.sortedFilms = sortedByTime
+            }
+
         },
     },
 })
