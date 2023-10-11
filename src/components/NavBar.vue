@@ -1,5 +1,6 @@
 <script setup>
-import SearchBlock from "@/components/SearchBlock.vue";
+import SearchBlock from "@/components/SearchBlock.vue"
+import SortBlock from "./SortBlock.vue";
 import { useFilmStore } from "@/stores/FilmStore"
 import {ref} from 'vue'
 const Films = useFilmStore()
@@ -22,6 +23,7 @@ const Films = useFilmStore()
                 Избранное
             </b-nav-item>
         </b-navbar-nav>
+        <sort-block></sort-block>
         <search-block></search-block>
     </b-navbar>
 </template>
