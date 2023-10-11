@@ -1,20 +1,33 @@
 import { defineStore } from "pinia"
-import { computed } from "vue"
-import { useFetch} from "@vueuse/core"
-
-const url = computed(() => {
-    return `http://localhost:3001/docs`
-})
-
-
-const { isFetching, error, data } = useFetch(url, {
-    refetch: true, //автоматический повторный запрос
-}).json()
 
 export const useFilmStore = defineStore("film", {
     state: () => ({
-        films: data,
+        films: null,
+        currentPage: 1,
+        perPage: 25,
+        totalFilms: 0,
     }),
     actions: {
+        async fetchData() {
+            if (this.films === null) {
+                try {
+                    const url = "http://localhost:3001/docs"
+                    const resp = await fetch(url)
+
+                    if (resp.ok) {
+                        const data = await resp.json() //ожидаем получения и присваиваем
+
+                        if (Array.isArray(data)) {
+                            this.films = data
+                            this.totalFilms = data.length
+                        }
+                    } else {
+                        console.error("Ошибка загрузки данных:", resp.status)
+                    }
+                } catch (error) {
+                    console.error("Ошибка загрузки данных", error)
+                }
+            }
+        },
     },
 })
