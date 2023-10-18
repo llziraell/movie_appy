@@ -3,20 +3,23 @@ import { ref } from "vue"
 
 import { useFilmStore } from "./FilmStore"
 
-//const FilmStore = piniaStore.FilmStore
-
 export const useSortFilmStore = defineStore("SortFilms", {
     state: () => ({
         films: [],
         sortedFilms: [],
+        hadSorted: false,
         minYear: 0,
         maxYear: 0,
         minMark: 0,
         maxMark: 10,
         minTime: 0,
         maxTime: 0,
+        openSortMenu: false
     }),
     actions: {
+        updateOpenSortMenu(){
+            this.openSortMenu = !this.openSortMenu
+        },
         getSortParameters() {
             const Films = useFilmStore()
             this.films = Films.films
@@ -46,30 +49,38 @@ export const useSortFilmStore = defineStore("SortFilms", {
             }
         },
         sortFilms(year, mark, time) {
-            if (year) {
-                console.log(this.films)
-                const sortedByYear = this.films.filter((movie) =>{ 
-                    movie.year === Number(year)
-                })
-                //console.log(typeof(Number(year)))
-                if (sortedByYear) {
+            if (year || mark || time) {
+                if (year) {
+                    const sortedByYear = this.films.filter((movie) => {
+                        return movie.year === Number(year)
+                    })
                     this.sortedFilms = sortedByYear
-                console.log(this.sortedFilms)
-                }     
+                }
+                if (mark) {
+                    const sortedByMark = this.films.filter((movie) => {
+                        return (
+                            movie.rating.imdb <= mark &&
+                            movie.rating.imdb >= mark - 1
+                        )
+                    })
+                    this.sortedFilms = sortedByMark
+                }
+                if (time) {
+                    const sortedByTime = this.films.filter((movie) => {
+                        return (
+                            movie.movieLength <= time + 10 &&
+                            movie.movieLength >= time - 10
+                        )
+                    })
+                    this.sortedFilms = sortedByTime
+                }
+            } else {
+                this.sortedFilms = this.films
+                alert('По вашим фильтрам не удалось ничего нафти! =(')
             }
-            if (mark) {
-                const sortedByMark = this.films.filter((movie) =>{ 
-                    movie.rating.imdb <= (mark) && movie.rating.imdb >= (mark - 1)
-                })
-                this.sortedFilms = sortedByMark
-            }
-            if (time) {
-                const sortedByTime = this.films.filter((movie) =>{ 
-                    movie.movieLength <= (time+10) && movie.movieLength >= (time - 10)
-                })
-                this.sortedFilms = sortedByTime
-            }
-
+            this.openSortMenu = ! this.openSortMenu
+            this.hadSorted  = true
+            console.log( this.sortedFilms)
         },
     },
 })

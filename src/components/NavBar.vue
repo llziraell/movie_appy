@@ -17,6 +17,7 @@ const Films = useFilmStore()
             <b-navbar-brand
                 href="#"
                 class="text-white"
+                @click.prevent="$router.push(`${'/'}`)"
                 >MovieApp</b-navbar-brand
             >
             <b-nav-item @click.prevent="$router.push(`${'bookmark'}`)">

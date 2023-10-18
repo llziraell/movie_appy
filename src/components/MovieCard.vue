@@ -1,10 +1,22 @@
 <script setup>
 import { defineProps } from "vue"
 const { props } = defineProps(["movieData"])
+
+//это тут временно)))
+import { useLocalStore } from "@/stores/LocalStore"
+import { useFilmStore } from "@/stores/FilmStore"
+
+const Films = useFilmStore()
+
+const LocalStore = useLocalStore()
+
+//@click.prevent="$router.push(`${'film'}`)"
+
 </script>
 
 <template>
-    <div class="movie" @click.prevent="$router.push(`${'film'}`)">
+     <!-- @click = "LocalStore.addBookMarks(movieData.externalId._id)" -->
+    <div class="movie"  @click.prevent="$router.push(`${'film'}`)" @click = "Films.getFilmId(movieData.id)">
         <div class="movie__cover-inner">
             <img
                 :src="movieData.poster.previewUrl"
@@ -22,7 +34,7 @@ const { props } = defineProps(["movieData"])
     </div>
 </template>
 
-<style>
+<style scoped>
 .movie {
     width: 240px;
     margin: 10px;

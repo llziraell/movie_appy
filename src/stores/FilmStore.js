@@ -12,6 +12,7 @@ export const useFilmStore = defineStore("film", {
         searchedFilms: [],
         selectedName: "",
         selectedFilm: null,
+        selectedFilmInfo: []
     }),
     actions: {
         async fetchData() {
@@ -36,16 +37,14 @@ export const useFilmStore = defineStore("film", {
             }
         },
         searchFilms(inputFilm) {
-            // Проверяем, есть ли строка поиска
             if (inputFilm.trim() === "") {
-                this.searchedFilms = [] // Если строка пуста, очищаем результаты
+                this.searchedFilms = []
                 return
             }
             const searchFilms = inputFilm.toLowerCase()
             this.searchedFilms = this.films.filter((movie) =>
                 movie.name.toLowerCase().includes(searchFilms)
             )
-            // console.log(this.searchedFilms)
         },
         searchFilmName(searchName) {
             this.selectedName = ''
@@ -55,7 +54,16 @@ export const useFilmStore = defineStore("film", {
             if (selectedFilm) {
                 this.selectedFilm = selectedFilm
                 this.selectedName = selectedFilm.name
-            }         
+            }     
+            this.visibleselectedFilm = true    
+        },
+        getFilmId(selectedFilmId){
+            console.log(selectedFilmId)
+            this.selectedFilmInfo = this.films.filter((movie)=>{
+                return movie.id === selectedFilmId
+            })
+            console.log(this.films)
+            console.log(this.selectedFilmInfo)
         },
     },
 })

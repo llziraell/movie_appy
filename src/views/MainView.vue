@@ -5,6 +5,8 @@ import NavBar from "@/components/NavBar.vue"
 
 import { useFilmStore } from "@/stores/FilmStore"
 const Films = useFilmStore()
+import { useLocalStore } from "@/stores/LocalStore"
+const LocalStore = useLocalStore()
 
 import { ref, computed, watch, onBeforeMount } from "vue"
 
@@ -13,6 +15,7 @@ const openAllFilms = ref(true)
 
 onBeforeMount(() => {
     Films.fetchData() //запрос данных происходит до отрисовки компонента
+    LocalStore.getFilms()
 })
 
 const paginatedFilms = computed(() => {
@@ -55,6 +58,36 @@ watch(currentPage, (newPage) => {
                     :movieData="movie"
                 />
             </div>
+            <!-- <div
+                class="selected_movie"
+                v-if="Films.selectedName !== ''"
+            >
+                <movie-card :movieData="Films.selectedFilm"></movie-card>
+                <div class="title-line">
+                    <span :openAllFilms="true">Другие</span>
+                </div>
+                <movie-card
+                    v-if="Films.films && openAllFilms"
+                    debounce="500"
+                    v-for="(movie, index) in paginatedFilms"
+                    :movieData="movie"
+                />
+            </div> -->
+            <!-- <div class="movies overflow-auto">
+                <movie-card
+                    this.hadSorted="true"
+                    v-for="(movie, index) in Films.sortedFilms"
+                    debounce="500"
+                    :key="index"
+                    :movieData="movie"
+                ></movie-card>
+                <movie-card
+                    v-if="Films.films && openAllFilms"
+                    debounce="500"
+                    v-for="(movie, index) in paginatedFilms"
+                    :movieData="movie"
+                />
+            </div> -->
         </template>
         <template #footer>
             <b-pagination
@@ -68,7 +101,7 @@ watch(currentPage, (newPage) => {
     </main-block>
 </template>
 
-<style scoped>
+<style>
 .movies {
     display: flex;
     flex-wrap: wrap; /*чтоб переходили по строчкам */
@@ -77,9 +110,9 @@ watch(currentPage, (newPage) => {
     padding-bottom: 15px;
 }
 
-.selected_movie{
+.selected_movie {
     display: flex;
-    flex-direction: column;/*чтоб переходили по строчкам */
+    flex-direction: column; /*чтоб переходили по строчкам */
     padding-top: 15px;
     padding-bottom: 15px;
 }
