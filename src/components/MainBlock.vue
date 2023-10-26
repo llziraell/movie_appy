@@ -1,12 +1,10 @@
 <script setup>
-import NavBar from '@/components/NavBar.vue';
 </script>
 
 <template>
     <div >
         <header>
             <slot name="header">
-                <nav-bar></nav-bar>
             </slot>
         </header>
         <div class = "container">

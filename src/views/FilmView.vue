@@ -1,8 +1,6 @@
 <script setup>
 import MainBlock from "@/components/MainBlock.vue"
 
-// import BookMarkView from "@/components/BookMarkView.vue"
-
 import { useFilmStore } from "@/stores/FilmStore"
 import { useLocalStore } from "@/stores/LocalStore"
 
@@ -20,8 +18,16 @@ image.onload = () => {
     isBackgroundLoaded.value = true
 }
 
+let currentRating = LocalStore.currentRating
+// const setRating = (rating) => {
+//     if (rating === currentRating.value) {
+//         currentRating.value = 0
+//     } else {
+//         currentRating.value = rating
+//     }
+// }
 
-
+const rate = ref(0)
 </script>
 
 <template>
@@ -41,39 +47,70 @@ image.onload = () => {
                         class="movie__cover"
                     />
                     <div
-                        class="movie__average"
-                         @click="LocalStore.toggleBookmark(Films.selectedFilmInfo[0].externalId._id)"
+                        class="movie__average_0"
+                        @click="
+                            LocalStore.toggleBookmark(
+                                Films.selectedFilmInfo[0].externalId._id
+                            )
+                        "
                         :style="{
-                            backgroundColor: LocalStore.bookmarks_ids.includes(Films.selectedFilmInfo[0].externalId._id) ? 'red' : 'transparent',
+                            backgroundColor: LocalStore.bookmarks_ids.includes(
+                                Films.selectedFilmInfo[0].externalId._id
+                            )
+                                ? 'red'
+                                : 'transparent',
                         }"
                     ></div>
+                    <!-- <div
+                        class="movie__average movie__average--green"
+                        {{ Films.selectedFilmInfo[0].rating.imdb }}
+                    ></div> -->
+
+                    <span
+                        style="
+                            margin-top: 10px;
+                            margin-right: 7px;
+                            position: center;
+                            cursor: pointer;
+                        "
+                        v-for="rating in LocalStore.maxRating"
+                        :key="rating"
+                        @click="
+                            LocalStore.addMarks(
+                                Films.selectedFilmInfo[0].externalId._id,
+                                rating
+                            )
+                        "
+                        :class="{ rated: rating <= LocalStore.currentRating }"
+                        >★</span
+                    >
+                    <h3>{{ currentRating }}</h3>
+                    <div class="movie__average">
+                        {{ Films.selectedFilmInfo[0].rating.imdb }}
+                    </div>
                 </div>
 
                 <div
                     class="film_text"
-                    style="background-color: rgb(234, 149, 52); color: #fff"
+                    style="color: #fff"
                 >
-                    <div>
-                        {{ Films.selectedFilmInfo[0].name }}
-                    </div>
+                    <h1>
+                        {{ Films.selectedFilmInfo[0].name }} -
+                        {{ Films.selectedFilmInfo[0].alternativeName }}
+                    </h1>
+                    <h5 style="color: yellow">
+                        {{ Films.selectedFilmInfo[0].year }}
+                    </h5>
                     <div>{{ Films.selectedFilmInfo[0].description }}</div>
-                    <div>{{ Films.selectedFilmInfo[0].year }}</div>
-                    <div>{{ Films.selectedFilmInfo[0].alternativeName }}</div>
-                    <div>{{ Films.selectedFilmInfo[0].movieLength }}</div>
-                    <div>{{ Films.selectedFilmInfo[0].rating.imdb }}</div>
-
-                    <!-- мои оценки и закладки -->
+                    <div style="margin-top: 10px">
+                        <img
+                            src="@/assets/chrono.png"
+                            style="filter: hue-rotate(90deg)"
+                        />
+                        {{ Films.selectedFilmInfo[0].movieLength }} минут
+                    </div>
                 </div>
             </div>
-        </template>
-        <template #footer>
-            <b-pagination
-                v-model="currentPage"
-                :total-rows="Films.totalFilms"
-                :per-page="Films.perPage"
-                first-number
-                last-number
-            ></b-pagination>
         </template>
     </main-block>
 </template>
@@ -128,9 +165,8 @@ image.onload = () => {
 }
 
 .film_container .film_text {
-    background-color: rgb(15, 2, 72);
     max-height: 360px;
-    width: 40vw;
+    width: 50vw;
     height: 100%;
 }
 
@@ -143,6 +179,22 @@ image.onload = () => {
     position: absolute;
     top: 10px;
     left: 10px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a191f;
+    color: #fff;
+    font-size: 14px;
+    border: 1px solid green;
+}
+
+.movie__average_0 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     /* border-radius: 50%; */
     width: 30px;
     height: 30px;
@@ -153,6 +205,17 @@ image.onload = () => {
     background-image: url("@/assets/bookmark.svg");
     background-repeat: none;
     cursor: pointer;
+}
+
+.movie__average .bookmark {
+    right: 10px;
+    background-image: url("@/assets/bookmark.svg");
+    background-repeat: none;
+    cursor: pointer;
+}
+
+.rated {
+    color: gold;
 }
 
 /* .film_card{

@@ -7,15 +7,55 @@ export const useLocalStore = defineStore("localStore", {
     state: () => ({
         films: [],
         bookmarks: [],
+        marks_ids: [],
         marks: [],
         bookmarks_ids: [],
+        maxRating: 10,
+        currentRating: 0
     }),
     actions: {
         getFilms() {
             const Films = useFilmStore()
             this.films = Films.films
         },
-        getMarks() {},
+        getMarks(film_id) {
+            const rates = JSON.parse(localStorage.getItem("rates"))
+            return rates
+            // if (rates.some((item) => item[film_id] !== undefined)) {
+            //     return true
+            // } else {
+            //     return false
+            // }
+        },
+        addMarks(film_id, rate, currentRating) {
+            this.getFilms()
+
+            let rates = JSON.parse(localStorage.getItem("rates"))
+
+            if (rates.length !== 0) {
+                const exist_film_id = rates.some((item) => item[film_id])
+               // console.log(exist_film_id)
+                if (exist_film_id) {
+                    rates = rates.filter((item) => {
+                        item.film_id !== film_id
+                    })
+                }
+            }
+            const mark = {
+                [film_id]: rate,
+            }
+            rates.push(mark)
+           // console.log(rates)
+            localStorage.setItem("rates", JSON.stringify(rates))
+
+            // для раскраски звезд
+                if (rate === this.currentRating) {
+                    this.currentRating = 0
+                } else {
+                    this.currentRating = rate
+                }
+                console.log(this.currentRating)
+        },
 
         addBookMarks(film_id) {
             if (!this.bookmarks_ids.includes(film_id)) {
@@ -33,9 +73,8 @@ export const useLocalStore = defineStore("localStore", {
                 film.isChecked = true
                 this.bookmarks.push(film)
             }
-            console.log('sdsds')
+            console.log("sdsds")
         },
-
         popBookMarks(film_id) {
             const index = this.bookmarks_ids.indexOf(film_id)
             if (index > -1) {
@@ -53,16 +92,16 @@ export const useLocalStore = defineStore("localStore", {
                 this.bookmarks.splice(filmIndex, 1)
             }
         },
-
-        toggleBookmark(film_id){
+        toggleBookmark(film_id) {
             this.getFilms()
-            const index = this.bookmarks_ids.indexOf(film_id);
-          
+            const index = this.bookmarks_ids.indexOf(film_id)
+
             if (index === -1) {
-              this.addBookMarks(film_id);
+                this.addBookMarks(film_id)
             } else {
-              this.popBookMarks(film_id);
+                this.popBookMarks(film_id)
             }
-        }
+        },
     },
+    getters: {},
 })

@@ -11,12 +11,15 @@ const Films = useFilmStore()
 const LocalStore = useLocalStore()
 
 //@click.prevent="$router.push(`${'film'}`)"
-
 </script>
 
 <template>
-     <!-- @click = "LocalStore.addBookMarks(movieData.externalId._id)" -->
-    <div class="movie"  @click.prevent="$router.push(`${'film'}`)" @click = "Films.getFilmId(movieData.id)">
+    <!-- @click = "LocalStore.addBookMarks(movieData.externalId._id)" -->
+    <div
+        class="movie"
+        @click.prevent="$router.push(`${'film'}`)"
+        @click="Films.getFilmId(movieData.id)"
+    >
         <div class="movie__cover-inner">
             <img
                 :src="movieData.poster.previewUrl"
@@ -30,6 +33,21 @@ const LocalStore = useLocalStore()
             <div class="movie__average movie__average--green">
                 {{ movieData.rating.imdb }}
             </div>
+            <div
+                class="movie__average_0"
+                @click="
+                    LocalStore.toggleBookmark(
+                        movieData.externalId._id
+                    )
+                "
+                :style="{
+                    backgroundColor: LocalStore.bookmarks_ids.includes(
+                        movieData.externalId._id
+                    )
+                        ? 'red'
+                        : 'transparent',
+                }"
+            ></div>
         </div>
     </div>
 </template>
@@ -107,5 +125,21 @@ const LocalStore = useLocalStore()
 
 .movie__average--red {
     border: 1px solid red;
+}
+
+.movie__average_0 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    /* border-radius: 50%; */
+    width: 30px;
+    height: 30px;
+    color: azure;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("@/assets/bookmark.svg");
+    background-repeat: none;
+    cursor: pointer;
 }
 </style>
