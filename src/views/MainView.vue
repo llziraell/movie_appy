@@ -7,6 +7,8 @@ import { useFilmStore } from "@/stores/FilmStore"
 const Films = useFilmStore()
 import { useLocalStore } from "@/stores/LocalStore"
 const LocalStore = useLocalStore()
+import { useSortFilmStore } from "@/stores/SortFilmStore"
+const SortFilmStore = useSortFilmStore()
 
 import { ref, computed, watch, onBeforeMount } from "vue"
 
@@ -41,7 +43,15 @@ watch(currentPage, (newPage) => {
             <nav-bar></nav-bar>
         </template>
         <template #container>
-            <div class="selected_movie"  v-if="Films.selectedName !== ''">
+            <div v-if = "SortFilmStore.hadSorted">
+                <div class="movies overflow-auto">
+                <movie-card v-for = "movie in SortFilmStore.sortedFilms"
+                    :movieData=movie
+                ></movie-card>
+                </div>
+            </div>
+            <div v-else>
+                <div class="selected_movie"  v-if="Films.selectedName !== ''">
                 <movie-card
                     :movieData="Films.selectedFilm"
                 ></movie-card>
@@ -58,6 +68,8 @@ watch(currentPage, (newPage) => {
                     :movieData="movie"
                 />
             </div>
+            </div>
+            
             <!-- <div
                 class="selected_movie"
                 v-if="Films.selectedName !== ''"

@@ -11,7 +11,6 @@ export const useLocalStore = defineStore("localStore", {
         marks: [],
         bookmarks_ids: [],
         maxRating: 10,
-        currentRating: 0
     }),
     actions: {
         getFilms() {
@@ -19,22 +18,22 @@ export const useLocalStore = defineStore("localStore", {
             this.films = Films.films
         },
         getMarks(film_id) {
-            const rates = JSON.parse(localStorage.getItem("rates"))
-            return rates
-            // if (rates.some((item) => item[film_id] !== undefined)) {
-            //     return true
-            // } else {
-            //     return false
-            // }
+            this.getFilms()
+            let rates = JSON.parse(localStorage.getItem("rates"))
+            if (rates.length !== 0){
+                const exist_film_id = rates.find((item) => item[film_id])
+                if (exist_film_id)
+                    return exist_film_id[film_id]
+                return 0
+            }
         },
-        addMarks(film_id, rate, currentRating) {
+        addMarks(film_id, rate) {
             this.getFilms()
 
             let rates = JSON.parse(localStorage.getItem("rates"))
 
             if (rates.length !== 0) {
                 const exist_film_id = rates.some((item) => item[film_id])
-               // console.log(exist_film_id)
                 if (exist_film_id) {
                     rates = rates.filter((item) => {
                         item.film_id !== film_id
@@ -45,16 +44,24 @@ export const useLocalStore = defineStore("localStore", {
                 [film_id]: rate,
             }
             rates.push(mark)
-           // console.log(rates)
+            console.log(rates)
             localStorage.setItem("rates", JSON.stringify(rates))
 
             // для раскраски звезд
-                if (rate === this.currentRating) {
-                    this.currentRating = 0
-                } else {
-                    this.currentRating = rate
-                }
-                console.log(this.currentRating)
+            if (rate === this.currentRating) {
+                this.currentRating = 0
+            } else {
+                this.currentRating = rate
+            }
+
+            const film = this.films.find(
+                (movie) => movie.externalId._id === film_id
+            )
+
+            if (!this.marks.includes(film)) {
+                film.rate = rate
+                this.marks.push(film)
+            }
         },
 
         addBookMarks(film_id) {

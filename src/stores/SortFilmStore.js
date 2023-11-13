@@ -6,7 +6,7 @@ import { useFilmStore } from "./FilmStore"
 export const useSortFilmStore = defineStore("SortFilms", {
     state: () => ({
         films: [],
-        sortedFilms: [],
+        sortedFilms: null,
         hadSorted: false,
         minYear: 0,
         maxYear: 0,
@@ -14,10 +14,10 @@ export const useSortFilmStore = defineStore("SortFilms", {
         maxMark: 10,
         minTime: 0,
         maxTime: 0,
-        openSortMenu: false
+        openSortMenu: false,
     }),
     actions: {
-        updateOpenSortMenu(){
+        updateOpenSortMenu() {
             this.openSortMenu = !this.openSortMenu
         },
         getSortParameters() {
@@ -48,39 +48,27 @@ export const useSortFilmStore = defineStore("SortFilms", {
                 this.maxTime = maxTime.movieLength
             }
         },
-        sortFilms(year, mark, time) {
+        sortFilms(year, mark, time) {   //сортировка по нажатию кнопки)
             if (year || mark || time) {
-                if (year) {
-                    const sortedByYear = this.films.filter((movie) => {
-                        return movie.year === Number(year)
-                    })
-                    this.sortedFilms = sortedByYear
-                }
-                if (mark) {
-                    const sortedByMark = this.films.filter((movie) => {
-                        return (
-                            movie.rating.imdb <= mark &&
-                            movie.rating.imdb >= mark - 1
-                        )
-                    })
-                    this.sortedFilms = sortedByMark
-                }
-                if (time) {
-                    const sortedByTime = this.films.filter((movie) => {
-                        return (
-                            movie.movieLength <= time + 10 &&
-                            movie.movieLength >= time - 10
-                        )
-                    })
-                    this.sortedFilms = sortedByTime
-                }
+                this.sortedFilms = this.films.filter((film) => {
+                    let byYear =
+                        !year ||
+                        (parseInt(film.year) >= parseInt(year) - 10 &&
+                            parseInt(film.year) < parseInt(year) + 10)
+                    let byMark =
+                        !mark ||
+                        (parseInt(film.rating.imdb) >= mark &&
+                            parseInt(film.rating.imdb) < parseInt(mark) + 1)
+                    let byTime = !time || film.movieLength < time
+                    return byYear && byMark && byTime
+                })
+                console.log(this.sortedFilms)
             } else {
                 this.sortedFilms = this.films
-                alert('По вашим фильтрам не удалось ничего нафти! =(')
+                alert("фильтр не найден =(")
             }
-            this.openSortMenu = ! this.openSortMenu
-            this.hadSorted  = true
-            console.log( this.sortedFilms)
+            this.openSortMenu = !this.openSortMenu
+            this.hadSorted = true
         },
     },
 })

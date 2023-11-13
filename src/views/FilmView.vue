@@ -18,7 +18,7 @@ image.onload = () => {
     isBackgroundLoaded.value = true
 }
 
-let currentRating = LocalStore.currentRating
+//let currentRating = LocalStore.currentRating
 // const setRating = (rating) => {
 //     if (rating === currentRating.value) {
 //         currentRating.value = 0
@@ -61,11 +61,6 @@ const rate = ref(0)
                                 : 'transparent',
                         }"
                     ></div>
-                    <!-- <div
-                        class="movie__average movie__average--green"
-                        {{ Films.selectedFilmInfo[0].rating.imdb }}
-                    ></div> -->
-
                     <span
                         style="
                             margin-top: 10px;
@@ -81,10 +76,16 @@ const rate = ref(0)
                                 rating
                             )
                         "
-                        :class="{ rated: rating <= LocalStore.currentRating }"
+                        :class="{
+                            rated:
+                                rating <=
+                                LocalStore.getMarks(
+                                    Films.selectedFilmInfo[0].externalId._id
+                                ),
+                        }"
                         >★</span
                     >
-                    <h3>{{ currentRating }}</h3>
+                    <h3>{{ LocalStore.currentRating }}</h3>
                     <div class="movie__average">
                         {{ Films.selectedFilmInfo[0].rating.imdb }}
                     </div>
@@ -108,6 +109,10 @@ const rate = ref(0)
                             style="filter: hue-rotate(90deg)"
                         />
                         {{ Films.selectedFilmInfo[0].movieLength }} минут
+                    </div>
+                    <div class = "recommand">
+                       <h4>Смотреть похожие:</h4>
+                       
                     </div>
                 </div>
             </div>
@@ -224,4 +229,20 @@ const rate = ref(0)
     height: 450px;
     background-color: blue;
 } */
+
+.recommand {
+    margin-top: 30px;
+    width: 100%;
+    height: 100px;
+    background-color: blue;
+    position: relative;
+}
+
+/* .recomand_film{
+    
+} */
+
+
+
+
 </style>

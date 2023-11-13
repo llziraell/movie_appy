@@ -60,9 +60,14 @@ const selectNav = ref('bookmarks')
                         :movieData="movie"
                     />
                 </div>
-                <div v-else>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur explicabo, sunt illum adipisci ipsa similique! Quaerat iusto, tempora ut quidem animi beatae id, repellat excepturi numquam ullam nobis esse amet.</p>
-                    <p>ksdkjskdjs</p>
+                <div v-else class="movies overflow-auto">
+                    <movie-card
+                        debounce="500"
+                        v-for="(movie, index) in LocalStore.marks"
+                        :key="index"
+                        :movieData="movie"
+                       
+                    />
                 </div>
             </div>
         </template>

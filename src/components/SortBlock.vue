@@ -7,7 +7,6 @@ const SortFilms = useSortFilmStore()
 import noUiSlider from 'nouislider'
 import 'nouislider/dist/nouislider.css'
 
-
 const status1 = ref(false)
 const status2 = ref(false)
 const status3 = ref(false)
@@ -107,6 +106,7 @@ const value22 = ref(100);
             </div>
             <b-button @click = "SortFilms.sortFilms(value1, value2, value3)" :openSortMenu="openSortMenu" > Найти </b-button>
         </div>
+        <b-button @click = "SortFilms.hadSorted = false">Сбросить</b-button>
     </div>
 </template>
 
