@@ -12,7 +12,10 @@ export const useFilmStore = defineStore("film", {
         searchedFilms: [],
         selectedName: "",
         selectedFilm: null,
-        selectedFilmInfo: []
+        selectedFilmInfo: [],
+
+        //для определения что фильтровать
+        currentView: 1
     }),
     actions: {
         async fetchData() {

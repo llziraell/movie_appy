@@ -7,7 +7,7 @@ import { useLocalStore } from "@/stores/LocalStore"
 const LocalStore = useLocalStore()
 const Films = useFilmStore()
 
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 
 const isBackgroundLoaded = ref(false)
 const backgroundImageUrl = Films.selectedFilmInfo[0].poster.url
@@ -17,6 +17,10 @@ image.src = backgroundImageUrl
 image.onload = () => {
     isBackgroundLoaded.value = true
 }
+
+onMounted(()=>{
+    Films.currentView = 2
+})
 
 //let currentRating = LocalStore.currentRating
 // const setRating = (rating) => {

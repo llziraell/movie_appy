@@ -48,9 +48,9 @@ export const useSortFilmStore = defineStore("SortFilms", {
                 this.maxTime = maxTime.movieLength
             }
         },
-        sortFilms(year, mark, time) {   //сортировка по нажатию кнопки)
+        sortFilms(year, mark, time, films) {   //сортировка по нажатию кнопки) - переделать функцию)
             if (year || mark || time) {
-                this.sortedFilms = this.films.filter((film) => {
+                this.sortedFilms = films.filter((film) => {
                     let byYear =
                         !year ||
                         (parseInt(film.year) >= parseInt(year) - 10 &&
@@ -64,7 +64,7 @@ export const useSortFilmStore = defineStore("SortFilms", {
                 })
                 console.log(this.sortedFilms)
             } else {
-                this.sortedFilms = this.films
+                this.sortedFilms = films
                 alert("фильтр не найден =(")
             }
             this.openSortMenu = !this.openSortMenu

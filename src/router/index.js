@@ -19,7 +19,8 @@ const router = createRouter({
       {
        path: '/bookmark',
        name: 'bookmark',
-       component: BookmarkView}
+       component: BookmarkView
+      },
     ]
   })
 

@@ -4,6 +4,12 @@ import { ref , onMounted} from "vue"
 import { useSortFilmStore } from "@/stores/SortFilmStore"
 const SortFilms = useSortFilmStore()
 
+import { useFilmStore } from "@/stores/FilmStore"
+const Films = useFilmStore()
+
+import { useLocalStore } from "@/stores/LocalStore"
+const LocalStore = useLocalStore()
+
 import noUiSlider from 'nouislider'
 import 'nouislider/dist/nouislider.css'
 
@@ -104,7 +110,9 @@ const value22 = ref(100);
                     :step="20"
                 ></b-form-input>
             </div>
-            <b-button @click = "SortFilms.sortFilms(value1, value2, value3)" :openSortMenu="openSortMenu" > Найти </b-button>
+            <b-button v-if = "Films.currentView === 0" @click = "SortFilms.sortFilms(value1, value2, value3, Films.films)" :openSortMenu="openSortMenu" > Найти </b-button>
+            <b-button v-else-if = "Films.currentView === 1" @click = "SortFilms.sortFilms(value1, value2, value3, LocalStore.marks)" :openSortMenu="openSortMenu" > Найти </b-button>
+
         </div>
         <b-button @click = "SortFilms.hadSorted = false">Сбросить</b-button>
     </div>

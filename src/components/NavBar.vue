@@ -2,7 +2,7 @@
 import SearchBlock from "@/components/SearchBlock.vue"
 import SortBlock from "./SortBlock.vue";
 import { useFilmStore } from "@/stores/FilmStore"
-import {ref} from 'vue'
+import {ref, provide} from 'vue'
 const Films = useFilmStore()
 
 </script>
@@ -23,6 +23,7 @@ const Films = useFilmStore()
             <b-nav-item @click.prevent="$router.push(`${'bookmark'}`)">
                 Избранное
             </b-nav-item>
+            <b-nav-item>{{ $route.params.componentName }}</b-nav-item>
         </b-navbar-nav>
         <sort-block></sort-block>
         <search-block></search-block>

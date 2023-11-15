@@ -10,7 +10,7 @@ const LocalStore = useLocalStore()
 import { useSortFilmStore } from "@/stores/SortFilmStore"
 const SortFilmStore = useSortFilmStore()
 
-import { ref, computed, watch, onBeforeMount } from "vue"
+import { ref, computed, watch, onBeforeMount, inject, onMounted } from "vue"
 
 const currentPage = ref(1)
 const openAllFilms = ref(true)
@@ -18,6 +18,10 @@ const openAllFilms = ref(true)
 onBeforeMount(() => {
     Films.fetchData() //запрос данных происходит до отрисовки компонента
     LocalStore.getFilms()
+})
+
+onMounted(()=>{
+    Films.currentView = 0
 })
 
 const paginatedFilms = computed(() => {
@@ -35,6 +39,9 @@ watch(currentPage, (newPage) => {
     //обновляем страницу
     Films.currentPage = newPage
 })
+
+
+
 </script>
 
 <template>
