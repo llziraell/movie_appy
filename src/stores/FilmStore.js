@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import {ref} from 'vue'
+import { ref } from "vue"
 
 export const useFilmStore = defineStore("film", {
     state: () => ({
@@ -15,7 +15,9 @@ export const useFilmStore = defineStore("film", {
         selectedFilmInfo: [],
 
         //для определения что фильтровать
-        currentView: 1
+        currentView: 1,
+
+        recommandFilms: [],
     }),
     actions: {
         async fetchData() {
@@ -50,23 +52,37 @@ export const useFilmStore = defineStore("film", {
             )
         },
         searchFilmName(searchName) {
-            this.selectedName = ''
+            this.selectedName = ""
             const selectedFilm = this.searchedFilms.find(
                 (movie) => movie.name === searchName
             )
             if (selectedFilm) {
                 this.selectedFilm = selectedFilm
                 this.selectedName = selectedFilm.name
-            }     
-            this.visibleselectedFilm = true    
+            }
+            this.visibleselectedFilm = true
         },
-        getFilmId(selectedFilmId){
+        getFilmId(selectedFilmId) {
             console.log(selectedFilmId)
-            this.selectedFilmInfo = this.films.filter((movie)=>{
+            this.selectedFilmInfo = this.films.filter((movie) => {
                 return movie.id === selectedFilmId
             })
             console.log(this.films)
             console.log(this.selectedFilmInfo)
+        },
+        getRecommandFilms(film) {
+            this.recommandFilms = this.films.filter((movie) => {
+                let nonRepeat = movie.externalId._id !== film.externalId._id
+                let byMark =
+                    parseInt(film.rating.imdb) >= movie.rating.imdb &&
+                    parseInt(film.rating.imdb) < parseInt(movie.rating.imdb) + 1
+                let byType = film.type === movie.type
+                return  byType && byMark && nonRepeat
+            })
+
+            if (this.recommandFilms.length >= 5) {
+                this.recommandFilms = this.recommandFilms.slice(0, 5);
+            }
         },
     },
 })

@@ -4,6 +4,8 @@ import MainBlock from "@/components/MainBlock.vue"
 import { useFilmStore } from "@/stores/FilmStore"
 import { useLocalStore } from "@/stores/LocalStore"
 
+import MovieCircle from "@/components/MovieCircle.vue"
+
 const LocalStore = useLocalStore()
 const Films = useFilmStore()
 
@@ -18,18 +20,9 @@ image.onload = () => {
     isBackgroundLoaded.value = true
 }
 
-onMounted(()=>{
+onMounted(() => {
     Films.currentView = 2
 })
-
-//let currentRating = LocalStore.currentRating
-// const setRating = (rating) => {
-//     if (rating === currentRating.value) {
-//         currentRating.value = 0
-//     } else {
-//         currentRating.value = rating
-//     }
-// }
 
 const rate = ref(0)
 </script>
@@ -82,20 +75,14 @@ const rate = ref(0)
                         "
                         :class="{
                             rated:
-                                // rating <=
-                                // LocalStore.getMarks(
-                                //     Films.selectedFilmInfo[0].externalId._id
-                                // ),
-                                rating <= LocalStore.getMarks(Films.selectedFilmInfo[0].externalId._id)
+                                rating <=
+                                LocalStore.getMarks(
+                                    Films.selectedFilmInfo[0].externalId._id
+                                ),
                         }"
                         >★</span
                     >
-                    <h3>{{ LocalStore.currentRating }}</h3>
-                    <div class="movie__average">
-                        {{ Films.selectedFilmInfo[0].rating.imdb }}
-                    </div>
                 </div>
-
                 <div
                     class="film_text"
                     style="color: #fff"
@@ -115,9 +102,17 @@ const rate = ref(0)
                         />
                         {{ Films.selectedFilmInfo[0].movieLength }} минут
                     </div>
-                    <div class = "recommand">
-                       <h4>Смотреть похожие:</h4>
-                       
+                    <div class="recommand">
+                        {{ Films.getRecommandFilms(Films.selectedFilmInfo[0]) }}
+                        <h4>Смотреть похожие:</h4>
+                        <div class = "film_circles">
+                            <movie-circle
+                                debounce="500"
+                                v-for="(movie, index) in Films.recommandFilms"
+                                :key="index"
+                                :movieData="movie"
+                            ></movie-circle>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -236,15 +231,15 @@ const rate = ref(0)
 } */
 
 .recommand {
-    margin-top: 30px;
+    margin-top: 40px;
     width: 100%;
-    height: 100px;
-    background-color: blue;
     position: relative;
 }
 
-/* .recomand_film{
-    
-} */
+.film_circles{
+   display: flex; 
+   flex-direction: row;
+   justify-content: flex-start
+}
 
 </style>
