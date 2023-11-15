@@ -63,10 +63,9 @@ const selectNav = ref('bookmarks')
                 <div v-else class="movies overflow-auto">
                     <movie-card
                         debounce="500"
-                        v-for="(movie, index) in LocalStore.marks"
+                        v-for="(movie, index) in LocalStore.getMarkedFilms()"
                         :key="index"
                         :movieData="movie"
-                       
                     />
                 </div>
             </div>

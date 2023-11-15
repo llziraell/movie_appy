@@ -6,7 +6,7 @@ const clearLocalStorage = ()=>{
   localStorage.clear()
   localStorage.setItem("rates", JSON.stringify([]))
 }
-  onMounted(clearLocalStorage)
+onMounted(clearLocalStorage)
   
 </script>
 

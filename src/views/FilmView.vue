@@ -78,10 +78,11 @@ const rate = ref(0)
                         "
                         :class="{
                             rated:
-                                rating <=
-                                LocalStore.getMarks(
-                                    Films.selectedFilmInfo[0].externalId._id
-                                ),
+                                // rating <=
+                                // LocalStore.getMarks(
+                                //     Films.selectedFilmInfo[0].externalId._id
+                                // ),
+                                rating <= LocalStore.getMarks(Films.selectedFilmInfo[0].externalId._id)
                         }"
                         >★</span
                     >
@@ -241,8 +242,5 @@ const rate = ref(0)
 /* .recomand_film{
     
 } */
-
-
-
 
 </style>
