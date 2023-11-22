@@ -2,14 +2,11 @@
 import { defineProps } from "vue"
 const { props } = defineProps(["movieData"])
 
-//это тут временно)))
 import { useLocalStore } from "@/stores/LocalStore"
 import { useFilmStore } from "@/stores/FilmStore"
 
 const Films = useFilmStore()
-
 const LocalStore = useLocalStore()
-
 </script>
 
 <template>
@@ -28,16 +25,12 @@ const LocalStore = useLocalStore()
         <div class="movie__info">
             <div class="movie__title">{{ movieData.name }}</div>
             <div class="movie__category">{{ movieData.year }}</div>
-            <div class="movie__average movie__average--green">
+            <div class="movie__average_rate">
                 {{ movieData.rating.imdb }}
             </div>
             <div
-                class="movie__average_0"
-                @click="
-                    LocalStore.toggleBookmark(
-                        movieData.externalId._id
-                    )
-                "
+                class="movie__average_bookmark"
+                @click="LocalStore.toggleBookmark(movieData.externalId._id)"
                 :style="{
                     backgroundColor: LocalStore.bookmarks_ids.includes(
                         movieData.externalId._id
@@ -50,11 +43,11 @@ const LocalStore = useLocalStore()
     </div>
 </template>
 
-<style scoped>
+<style lang="scss">
+@import '@/assets/main.scss';
 .movie {
+    @include movie_base;
     width: 240px;
-    margin: 10px;
-    position: relative;
 }
 
 .movie__cover-inner {
@@ -69,7 +62,7 @@ const LocalStore = useLocalStore()
 }
 
 .movie__cover--darkened {
-    background-color: #000;
+    background-color: $default_bg_color;
     opacity: 0.1;
     position: absolute;
     top: 0;
@@ -91,57 +84,32 @@ const LocalStore = useLocalStore()
 
 .movie__title {
     font-size: 16px;
-    color: #fff;
+    color: $default-text-color;
 }
 
 .movie__category {
     font-size: 14px;
-    color: #ffd80e;
+    color: $rated;
 }
 
-.movie__average {
-    position: absolute;
-    top: 10px;
+.movie__average_rate {
+    @include movie__average;
     left: 10px;
     border-radius: 50%;
     width: 36px;
     height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #1a191f;
-    color: #fff;
+    background-color: $main-bg-color;
     font-size: 14px;
-}
-
-.movie__average--green {
     border: 1px solid green;
 }
 
-.movie__average--orange {
-    border: 1px solid orange;
-}
-
-.movie__average--red {
-    border: 1px solid red;
-}
-
-.movie__average_0 {
-    position: absolute;
-    top: 10px;
+.movie__average_bookmark {
+    @include movie__average;
     right: 10px;
-    width: 30px; 
-    height: 30px; 
-    color: azure;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 30px;
+    height: 30px;
     background-image: url("@/assets/bookmark.png");
     background-repeat: none;
     cursor: pointer;
 }
-
-/* .movie__average_0--push {
-    background-image: url("@/assets/bookmark_push.png");
-} */
 </style>

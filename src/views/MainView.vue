@@ -1,22 +1,23 @@
 <script setup>
+import { ref, computed, onBeforeMount, onMounted } from "vue"
+
 import MainBlock from "@/components/MainBlock.vue"
 import MovieCard from "@/components/MovieCard.vue"
 import NavBar from "@/components/NavBar.vue"
 
 import { useFilmStore } from "@/stores/FilmStore"
-const Films = useFilmStore()
 import { useLocalStore } from "@/stores/LocalStore"
-const LocalStore = useLocalStore()
 import { useSortFilmStore } from "@/stores/SortFilmStore"
-const SortFilmStore = useSortFilmStore()
 
-import { ref, computed, onBeforeMount, onMounted } from "vue"
+const Films = useFilmStore()
+const LocalStore = useLocalStore()
+const SortFilmStore = useSortFilmStore()
 
 const currentPage = ref(1)
 const openAllFilms = ref(true)
 
 onBeforeMount(() => {
-    Films.fetchData() //запрос данных происходит до отрисовки компонента
+    Films.fetchData()
     LocalStore.getFilms()
 })
 
@@ -99,23 +100,24 @@ const paginatedFilms = computed(() => {
     </main-block>
 </template>
 
-<style>
+<style lang = "scss">
+@import '@/assets/main.scss';
 
 .custom-pagination .page-item.active .page-link {
-    background-color: yellow; 
-    border-color: rgb(0, 0, 0); 
-    color: rgb(0, 0, 0);
+    background-color: $rated; 
+    border-color: $default_bg_color;
+    color: $default_bg_color;
 }
 
 .custom-pagination .page-item .page-link {
-    background-color: #1a191f;
-    border-color: rgb(0, 0, 0);
-    color: white;
+    background-color: $main-bg-color;
+    border-color: $default_bg_color;
+    color: $default_text_color;
 }
 
 .movies {
     display: flex;
-    flex-wrap: wrap; /*чтоб переходили по строчкам */
+    flex-wrap: wrap; 
     justify-content: space-around;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -123,7 +125,7 @@ const paginatedFilms = computed(() => {
 
 .selected_movie {
     display: flex;
-    flex-direction: column; /*чтоб переходили по строчкам */
+    flex-direction: column;
     padding-top: 15px;
     padding-bottom: 15px;
 }
@@ -138,8 +140,8 @@ const paginatedFilms = computed(() => {
 }
 
 .title-line span {
-    background: #1a191f;
-    color: #fff;
+    background: $main-bg-color;
+    color: $default-text-color;
     display: inline-block;
     padding: 0 15px;
     position: relative;
@@ -151,6 +153,6 @@ const paginatedFilms = computed(() => {
     top: 50%;
     left: 0;
     width: 100%;
-    border-top: 2px solid #fff;
+    border-top: 2px solid $default-text-color;
 }
 </style>

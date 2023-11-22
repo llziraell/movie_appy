@@ -1,4 +1,6 @@
 <script setup>
+import { ref, watch, onMounted } from "vue"
+
 import MainBlock from "@/components/MainBlock.vue"
 import NavBar from "@/components/NavBar.vue"
 import MovieCard from "@/components/MovieCard.vue"
@@ -6,28 +8,21 @@ import MovieCard from "@/components/MovieCard.vue"
 import { useLocalStore } from "@/stores/LocalStore"
 import { useFilmStore } from "@/stores/FilmStore"
 import { useSortFilmStore } from "@/stores/SortFilmStore"
-const SortFilms = useSortFilmStore()
 
-import { ref, watch, onMounted, onBeforeMount } from "vue"
 const LocalStore = useLocalStore()
 const Films = useFilmStore()
+const SortFilms = useSortFilmStore()
 
+const selectNav = ref("")
 const currentPage = ref(1)
 
+//возможно даже убрать)
 watch(currentPage, (newPage) => {
-    //обновляем страницу
     currentPage = newPage
 })
 
-const selectNav = ref("")
-
-// onBeforeMount(() => {
-//     selectNav.value = 'bookmarks'
-// }),
-
 onMounted(() => {
     Films.currentView = 1
-    console.log(Films.currentView)
 })
 </script>
 
@@ -41,17 +36,17 @@ onMounted(() => {
                 <b-nav tabs>
                     <b-nav-item
                         @click="
-                            selectNav = 'bookmarks',
-                            Films.currentView = 3,
-                            SortFilms.hadSorted = false
+                            ;(selectNav = 'bookmarks'),
+                                (Films.currentView = 3),
+                                (SortFilms.hadSorted = false)
                         "
                         >Закладки</b-nav-item
                     >
                     <b-nav-item
                         @click="
-                            selectNav = 'favourite',
-                            Films.currentView = 1,
-                            SortFilms.hadSorted = false
+                            ;(selectNav = 'favourite'),
+                                (Films.currentView = 1),
+                                (SortFilms.hadSorted = false)
                         "
                         >Вам понравилось</b-nav-item
                     >
@@ -106,13 +101,15 @@ onMounted(() => {
     </main-block>
 </template>
 
-<style scoped>
+<style lang = "scss">
+@import '@/assets/main.scss';
+
 .pusto {
     height: 100vh;
 }
 
 .text_bookmarks_view {
-    color: white;
+    color:  $default-text-color;
     text-align: center;
     width: 800px;
     margin-top: 50px;

@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
-
 import { useFilmStore } from "./FilmStore"
 
 export const useSortFilmStore = defineStore("SortFilms", {
@@ -16,7 +14,6 @@ export const useSortFilmStore = defineStore("SortFilms", {
         maxTime: 0,
         openSortMenu: false,
 
-        //для пагинации
         currentPage: 1,
         perPage: 25,
         totalFilms: 0,
@@ -30,7 +27,6 @@ export const useSortFilmStore = defineStore("SortFilms", {
             this.films = Films.films
 
             if (Films.films) {
-                //год
                 const minYear = this.films.reduce((min, cur) => {
                     return cur.year < min.year ? cur : min
                 }, this.films[0])
@@ -41,7 +37,6 @@ export const useSortFilmStore = defineStore("SortFilms", {
                 }, this.films[0])
                 this.maxYear = maxYear.year
 
-                //хроно
                 const minTime = this.films.reduce((min, cur) => {
                     return cur.movieLength < min.movieLength ? cur : min
                 }, this.films[0])
@@ -54,7 +49,6 @@ export const useSortFilmStore = defineStore("SortFilms", {
             }
         },
         sortFilms(year, mark, time, films) {
-            //сортировка по нажатию кнопки) - переделать функцию)
             if (year || mark || time) {
                 this.sortedFilms = films.filter((film) => {
                     let byYear =
@@ -68,7 +62,6 @@ export const useSortFilmStore = defineStore("SortFilms", {
                     let byTime = !time || film.movieLength < time
                     return byYear && byMark && byTime
                 })
-                console.log(this.sortedFilms)
             } else {
                 this.sortedFilms = films
                 alert("фильтр не найден =(")

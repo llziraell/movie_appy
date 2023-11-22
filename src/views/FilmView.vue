@@ -1,15 +1,14 @@
 <script setup>
+import { ref, onMounted, computed } from "vue"
+
 import MainBlock from "@/components/MainBlock.vue"
+import MovieRecommend from "@/components/MovieRecommend.vue"
 
 import { useFilmStore } from "@/stores/FilmStore"
 import { useLocalStore } from "@/stores/LocalStore"
 
-import MovieCircle from "@/components/MovieCircle.vue"
-
-const LocalStore = useLocalStore()
 const Films = useFilmStore()
-
-import { ref, onMounted, computed } from "vue"
+const LocalStore = useLocalStore()
 
 const isBackgroundLoaded = ref(false)
 const backgroundImageUrl = Films.selectedFilmInfo[0].poster.url
@@ -22,14 +21,6 @@ image.onload = () => {
 
 onMounted(() => {
     Films.currentView = 2
-})
-
-const toggleBookmark = computed(() => {
-    return LocalStore.bookmarks_ids.includes(
-        Films.selectedFilmInfo[0].externalId._id
-    )
-        ? "movie__average_0 add_bookmark"
-        : "movie__average_0 pop_bookmark"
 })
 
 const rate = ref(0)
@@ -100,7 +91,7 @@ const rate = ref(0)
                         {{ Films.selectedFilmInfo[0].name }} -
                         {{ Films.selectedFilmInfo[0].alternativeName }}
                     </h1>
-                    <h5 style="color: yellow">
+                    <h5 style="color: gold">
                         {{ Films.selectedFilmInfo[0].year }}
                     </h5>
                     <div>{{ Films.selectedFilmInfo[0].description }}</div>
@@ -112,17 +103,17 @@ const rate = ref(0)
                         {{ Films.selectedFilmInfo[0].movieLength }} минут
                     </div>
                     <div class="recommand">
-                        {{ Films.getRecommandFilms(Films.selectedFilmInfo[0]) }}
-                        <h4 v-if="Films.recommandFilms.length !== 0">
+                        {{ Films.getrecommendFilms(Films.selectedFilmInfo[0]) }}
+                        <h4 v-if="Films.recommendFilms.length !== 0">
                             Смотреть похожие:
                         </h4>
                         <div class="film_circles">
-                            <movie-circle
+                            <movie-recommend
                                 debounce="500"
-                                v-for="(movie, index) in Films.recommandFilms"
+                                v-for="(movie, index) in Films.recommendFilms"
                                 :key="index"
                                 :movieData="movie"
-                            ></movie-circle>
+                            ></movie-recommend>
                         </div>
                     </div>
                 </div>
@@ -131,28 +122,26 @@ const rate = ref(0)
     </main-block>
 </template>
 
-<style scoped>
+<style lang = "scss">
+@import '@/assets/main.scss';
+
 .return {
-    background-color: #000000;
+    background-color: $default_bg_color;
     height: 40px;
     width: 40px;
-    color: #fff;
+    color: $default-text-color;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flexy;
     margin-left: 30px;
     cursor: pointer;
 }
 .bg-image {
-    /* Установите URL фонового изображения */
     background-size: cover;
     background-size: auto 100%;
     opacity: 0.8;
     background-position: right center;
 }
 
-/* здесь нужно настроить абсолютно вск марджины и размеры, а то все плохо)))) */
 .bg-image::after {
     content: "";
     position: absolute;
@@ -167,14 +156,13 @@ const rate = ref(0)
         0,
         0,
         0.5
-    ); /* Цвет фона с прозрачностью - попробуй подобавлять цвет с картнки для 100 фильмов) */
-    backdrop-filter: blur(10px); /* Размытие фона */
+    );
+    backdrop-filter: blur(10px);
     z-index: -1;
 }
 .film_container {
     display: flex;
     align-items: center;
-    background-color: bisque;
     min-height: 95vh;
     height: 100vh;
     left: 0;
@@ -184,7 +172,7 @@ const rate = ref(0)
 }
 
 .film_container .film_poster {
-    background-color: rgb(0, 0, 0);
+    background-color: $default_bg_color;
     height: 360px;
     width: 240px;
     min-height: 360px;
@@ -205,30 +193,17 @@ const rate = ref(0)
 }
 
 .movie__average_0 {
-    position: absolute;
-    top: 10px;
+    @include movie__average;
     right: 10px;
     width: 30px;
     height: 30px;
-    color: azure;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-image: url("@/assets/bookmark.png");
     background-repeat: none;
     cursor: pointer;
 }
 
-.movie__average_0 .pop_bookmark {
-    background-image: url("@/assets/bookmark.png") !important;
-}
-
-.movie__average_0 .add_bookmark {
-    background-image: url("@/assets/bookmark_push.png") !important;
-}
-
 .rated {
-    color: gold;
+    color: $rated;
 }
 
 .recommand {

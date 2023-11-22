@@ -37,7 +37,10 @@ watch(
         </b-dropdown>
         <b-button
             style="margin-left: 5px; text-align: center"
-            @click="inputFilm = ''; Films.selectedName = ''"
+            @click="
+                inputFilm = '',
+                Films.selectedName = ''
+            "
             >x</b-button
         >
     </b-nav-form>

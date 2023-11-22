@@ -48,7 +48,6 @@ export const useLocalStore = defineStore("localStore", {
                             [film_id]: rate,
                         }
                         this.rates.push(mark)
-                        console.log(this.rates)
                     }
                 } else {
                     this.rates.push(mark)
@@ -60,12 +59,12 @@ export const useLocalStore = defineStore("localStore", {
         },
         getMarkedFilms() {
             if (this.rates !== null) {
-            const filmIds = this.rates.map((item) => Object.keys(item)[0])
+                const filmIds = this.rates.map((item) => Object.keys(item)[0])
 
-            this.marks = this.films.filter((film) =>
-                filmIds.some((id) => film.externalId._id === id)
-            )
-            return this.marks
+                this.marks = this.films.filter((film) =>
+                    filmIds.some((id) => film.externalId._id === id)
+                )
+                return this.marks
             }
         },
         addBookMarks(film_id) {

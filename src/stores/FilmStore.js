@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
-
 import { useSortFilmStore } from "./SortFilmStore"
 
 export const useFilmStore = defineStore("film", {
@@ -9,18 +7,14 @@ export const useFilmStore = defineStore("film", {
         currentPage: 1,
         perPage: 25,
         totalFilms: 0,
-//
-        //для поиска:
+
         searchedFilms: [],
         selectedName: "",
         selectedFilm: null,
         selectedFilmInfo: [],
 
-        //для определения что фильтровать
         currentView: 1,
-
-        recommandFilms: [],
-
+        recommendFilms: [],
     }),
     actions: {
         async fetchData() {
@@ -30,8 +24,7 @@ export const useFilmStore = defineStore("film", {
                     const resp = await fetch(url)
 
                     if (resp.ok) {
-                        const data = await resp.json() //ожидаем получения и присваиваем
-
+                        const data = await resp.json()
                         if (Array.isArray(data)) {
                             this.films = data
                             this.totalFilms = data.length
@@ -65,21 +58,17 @@ export const useFilmStore = defineStore("film", {
             }
             this.visibleselectedFilm = true
 
-            //чтобы сортировка не сбивала поиск!)))
+            // чтобы сортировка не сбивала поиск
             const FilmStore = useSortFilmStore()
             FilmStore.hadSorted = false
-            console.log(FilmStore.hadSorted)
         },
         getFilmId(selectedFilmId) {
-            console.log(selectedFilmId)
             this.selectedFilmInfo = this.films.filter((movie) => {
                 return movie.id === selectedFilmId
             })
-            console.log(this.films)
-            console.log(this.selectedFilmInfo)
         },
-        getRecommandFilms(film) {
-            this.recommandFilms = this.films.filter((movie) => {
+        getrecommendFilms(film) {
+            this.recommendFilms = this.films.filter((movie) => {
                 let nonRepeat = movie.externalId._id !== film.externalId._id
                 let byMark =
                     parseInt(film.rating.imdb) >= movie.rating.imdb &&
@@ -87,9 +76,8 @@ export const useFilmStore = defineStore("film", {
                 let byType = film.type === movie.type
                 return byType && byMark && nonRepeat
             })
-
-            if (this.recommandFilms.length >= 5) {
-                this.recommandFilms = this.recommandFilms.slice(0, 5)
+            if (this.recommendFilms.length >= 5) {
+                this.recommendFilms = this.recommendFilms.slice(0, 5)
             }
         },
     },

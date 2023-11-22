@@ -2,12 +2,11 @@
 import { ref } from "vue"
 
 import { useSortFilmStore } from "@/stores/SortFilmStore"
-const SortFilms = useSortFilmStore()
-
 import { useFilmStore } from "@/stores/FilmStore"
-const Films = useFilmStore()
-
 import { useLocalStore } from "@/stores/LocalStore"
+
+const SortFilms = useSortFilmStore()
+const Films = useFilmStore()
 const LocalStore = useLocalStore()
 
 const status1 = ref(false)
@@ -18,8 +17,7 @@ const value1 = ref("")
 const value2 = ref("")
 const value3 = ref("")
 
-props: ['selectNav'];
-
+props: ["selectNav"]
 </script>
 
 <template style="position: relative">
@@ -120,24 +118,26 @@ props: ['selectNav'];
         </div>
         <b-button
             @click="
-                SortFilms.hadSorted = false;
-                status1 = false;
-                value1 = ' ';
-                status2 = false;
-                value2 = ' ';
-                status3 = false;
-                value3 = ' ';
+                SortFilms.hadSorted = false,
+                status1 = false,
+                value1 = ' ',
+                status2 = false,
+                value2 = ' ',
+                status3 = false,
+                value3 = ' '
             "
             >Сбросить</b-button
         >
     </div>
 </template>
 
-<style scoped>
+<style lang = "scss">
+@import '@/assets/main.scss';
+
 .dropdown {
     position: absolute;
     z-index: 1;
-    background-color: #fff;
+    background-color: $default-text-color;
     border: 1px solid #ccc;
     padding: 10px;
     top: 100%;

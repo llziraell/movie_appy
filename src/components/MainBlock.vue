@@ -1,30 +1,27 @@
-<script setup>
-</script>
-
 <template>
-    <div >
+    <div>
         <header>
-            <slot name="header">
-            </slot>
+            <slot name="header"> </slot>
         </header>
-        <div class = "container">
+        <div class="container">
             <slot name="container"></slot>
         </div>
-        <footer class = "footer">
-            <slot name="footer">
-            </slot>
+        <footer class="footer">
+            <slot name="footer"> </slot>
         </footer>
     </div>
 </template>
 
-<style >
-.container{
-    background-color: #1a191f;
+<style lang="scss">
+@import '@/assets/main.scss';
+
+.container {
+    background-color: $main-bg-color;
     max-width: 100vw;
     margin: 0 auto;
 }
 
 .footer {
-    background-color: #1a191f;
+    background-color: $main-bg-color;
 }
 </style>
