@@ -10,11 +10,9 @@ const Films = useFilmStore()
 
 const LocalStore = useLocalStore()
 
-//@click.prevent="$router.push(`${'film'}`)"
 </script>
 
 <template>
-    <!-- @click = "LocalStore.addBookMarks(movieData.externalId._id)" -->
     <div
         class="movie"
         @click.prevent="$router.push(`${'film'}`)"
@@ -44,7 +42,7 @@ const LocalStore = useLocalStore()
                     backgroundColor: LocalStore.bookmarks_ids.includes(
                         movieData.externalId._id
                     )
-                        ? 'red'
+                        ? 'yellow'
                         : 'transparent',
                 }"
             ></div>
@@ -67,6 +65,7 @@ const LocalStore = useLocalStore()
 .movie__cover {
     max-width: 100%;
     height: 100%;
+    cursor: pointer;
 }
 
 .movie__cover--darkened {
@@ -131,15 +130,18 @@ const LocalStore = useLocalStore()
     position: absolute;
     top: 10px;
     right: 10px;
-    /* border-radius: 50%; */
-    width: 30px;
-    height: 30px;
+    width: 30px; 
+    height: 30px; 
     color: azure;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("@/assets/bookmark.svg");
+    background-image: url("@/assets/bookmark.png");
     background-repeat: none;
     cursor: pointer;
 }
+
+/* .movie__average_0--push {
+    background-image: url("@/assets/bookmark_push.png");
+} */
 </style>

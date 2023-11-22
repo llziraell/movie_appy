@@ -34,6 +34,7 @@ const Films = useFilmStore()
 
 .movie__cover__circle {
     max-width: 100%;
+    cursor: pointer;
 }
 
 .movie__cover--darkened {

@@ -59,12 +59,14 @@ export const useLocalStore = defineStore("localStore", {
             localStorage.setItem("rates", JSON.stringify(this.rates))
         },
         getMarkedFilms() {
+            if (this.rates !== null) {
             const filmIds = this.rates.map((item) => Object.keys(item)[0])
 
             this.marks = this.films.filter((film) =>
                 filmIds.some((id) => film.externalId._id === id)
             )
             return this.marks
+            }
         },
         addBookMarks(film_id) {
             if (!this.bookmarks_ids.includes(film_id)) {

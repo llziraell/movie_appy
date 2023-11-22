@@ -1,13 +1,15 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 
+import { useSortFilmStore } from "./SortFilmStore"
+
 export const useFilmStore = defineStore("film", {
     state: () => ({
         films: null,
         currentPage: 1,
         perPage: 25,
         totalFilms: 0,
-
+//
         //для поиска:
         searchedFilms: [],
         selectedName: "",
@@ -18,6 +20,7 @@ export const useFilmStore = defineStore("film", {
         currentView: 1,
 
         recommandFilms: [],
+
     }),
     actions: {
         async fetchData() {
@@ -61,6 +64,11 @@ export const useFilmStore = defineStore("film", {
                 this.selectedName = selectedFilm.name
             }
             this.visibleselectedFilm = true
+
+            //чтобы сортировка не сбивала поиск!)))
+            const FilmStore = useSortFilmStore()
+            FilmStore.hadSorted = false
+            console.log(FilmStore.hadSorted)
         },
         getFilmId(selectedFilmId) {
             console.log(selectedFilmId)
@@ -77,11 +85,11 @@ export const useFilmStore = defineStore("film", {
                     parseInt(film.rating.imdb) >= movie.rating.imdb &&
                     parseInt(film.rating.imdb) < parseInt(movie.rating.imdb) + 1
                 let byType = film.type === movie.type
-                return  byType && byMark && nonRepeat
+                return byType && byMark && nonRepeat
             })
 
             if (this.recommandFilms.length >= 5) {
-                this.recommandFilms = this.recommandFilms.slice(0, 5);
+                this.recommandFilms = this.recommandFilms.slice(0, 5)
             }
         },
     },

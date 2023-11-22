@@ -1,9 +1,9 @@
 <script setup>
 import SearchBlock from "@/components/SearchBlock.vue"
-import SortBlock from "./SortBlock.vue";
-import { useFilmStore } from "@/stores/FilmStore"
-import {ref, provide} from 'vue'
-const Films = useFilmStore()
+import SortBlock from "./SortBlock.vue"
+
+props: ['selectNav']
+
 
 </script>
 
@@ -11,21 +11,25 @@ const Films = useFilmStore()
     <b-navbar
         toggleable="lg"
         sticky="top"
-        class="bg-dark"
+        style = "background-color: rgb(30, 30, 37);"
     >
         <b-navbar-nav>
             <b-navbar-brand
                 href="#"
                 class="text-white"
                 @click.prevent="$router.push(`${'/'}`)"
-                >MovieApp</b-navbar-brand
+                style = "margin-top: 6px;"
+                >ПоискКино</b-navbar-brand
             >
-            <b-nav-item @click.prevent="$router.push(`${'bookmark'}`)">
-                Избранное
+            <b-nav-item
+                @click.prevent="$router.push(`${'bookmark'}`)"
+            >
+               <b-nav-text style = "color: yellow;">Избранное</b-nav-text>
             </b-nav-item>
             <b-nav-item>{{ $route.params.componentName }}</b-nav-item>
         </b-navbar-nav>
-        <sort-block></sort-block>
+        <sort-block :selectNav = "selectNav"></sort-block>
         <search-block></search-block>
     </b-navbar>
 </template>
+

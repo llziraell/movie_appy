@@ -1,5 +1,5 @@
 <script setup>
-import { ref,  watch} from "vue"
+import { ref, watch } from "vue"
 import { useFilmStore } from "@/stores/FilmStore"
 const Films = useFilmStore()
 
@@ -35,6 +35,11 @@ watch(
                 >{{ filmName.name }}</b-dropdown-item
             >
         </b-dropdown>
+        <b-button
+            style="margin-left: 5px; text-align: center"
+            @click="inputFilm = ''; Films.selectedName = ''"
+            >x</b-button
+        >
     </b-nav-form>
 </template>
 

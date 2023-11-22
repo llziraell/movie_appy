@@ -10,7 +10,7 @@ const LocalStore = useLocalStore()
 import { useSortFilmStore } from "@/stores/SortFilmStore"
 const SortFilmStore = useSortFilmStore()
 
-import { ref, computed, watch, onBeforeMount, inject, onMounted } from "vue"
+import { ref, computed, onBeforeMount, onMounted } from "vue"
 
 const currentPage = ref(1)
 const openAllFilms = ref(true)
@@ -20,28 +20,23 @@ onBeforeMount(() => {
     LocalStore.getFilms()
 })
 
-onMounted(()=>{
+onMounted(() => {
     Films.currentView = 0
 })
 
 const paginatedFilms = computed(() => {
-    if (Films.films) {
-        //если фильмы загружены
-        const start = (currentPage.value - 1) * Films.perPage
-        const end = start + Films.perPage
-        return Films.films.slice(start, end)
-    } else {
-        return []
+    return (selectedStore) => {
+        const start = (currentPage.value - 1) * selectedStore.perPage
+        const end = start + selectedStore.perPage
+        if (selectedStore.sortedFilms) {
+            return selectedStore.sortedFilms.slice(start, end)
+        } else if (selectedStore.films) {
+            return selectedStore.films.slice(start, end)
+        } else {
+            return []
+        }
     }
 })
-
-watch(currentPage, (newPage) => {
-    //обновляем страницу
-    Films.currentPage = newPage
-})
-
-
-
 </script>
 
 <template>
@@ -50,77 +45,74 @@ watch(currentPage, (newPage) => {
             <nav-bar></nav-bar>
         </template>
         <template #container>
-            <div v-if = "SortFilmStore.hadSorted">
+            <div v-if="SortFilmStore.hadSorted">
                 <div class="movies overflow-auto">
-                <movie-card v-for = "movie in SortFilmStore.sortedFilms"
-                    :movieData=movie
-                ></movie-card>
+                    <movie-card
+                        v-for="movie in paginatedFilms(SortFilmStore)"
+                        :movieData="movie"
+                    ></movie-card>
                 </div>
             </div>
             <div v-else>
-                <div class="selected_movie"  v-if="Films.selectedName !== ''">
-                <movie-card
-                    :movieData="Films.selectedFilm"
-                ></movie-card>
-                <div class="title-line">
-                    <span :openAllFilms = true>Другие</span>
+                <div
+                    class="selected_movie"
+                    v-if="Films.selectedName !== ''"
+                >
+                    <movie-card :movieData="Films.selectedFilm"></movie-card>
+                    <div class="title-line">
+                        <span :openAllFilms="true">Другие</span>
+                    </div>
+                </div>
+                <div class="movies overflow-auto">
+                    <movie-card
+                        v-if="Films.films && openAllFilms"
+                        debounce="500"
+                        v-for="(movie, index) in paginatedFilms(Films)"
+                        :key="index"
+                        :movieData="movie"
+                    />
                 </div>
             </div>
-            <div class="movies overflow-auto">
-                <movie-card
-                    v-if="Films.films && openAllFilms"
-                    debounce="500"
-                    v-for="(movie, index) in paginatedFilms"
-                    :key="index"
-                    :movieData="movie"
-                />
-            </div>
-            </div>
-            
-            <!-- <div
-                class="selected_movie"
-                v-if="Films.selectedName !== ''"
-            >
-                <movie-card :movieData="Films.selectedFilm"></movie-card>
-                <div class="title-line">
-                    <span :openAllFilms="true">Другие</span>
-                </div>
-                <movie-card
-                    v-if="Films.films && openAllFilms"
-                    debounce="500"
-                    v-for="(movie, index) in paginatedFilms"
-                    :movieData="movie"
-                />
-            </div> -->
-            <!-- <div class="movies overflow-auto">
-                <movie-card
-                    this.hadSorted="true"
-                    v-for="(movie, index) in Films.sortedFilms"
-                    debounce="500"
-                    :key="index"
-                    :movieData="movie"
-                ></movie-card>
-                <movie-card
-                    v-if="Films.films && openAllFilms"
-                    debounce="500"
-                    v-for="(movie, index) in paginatedFilms"
-                    :movieData="movie"
-                />
-            </div> -->
         </template>
         <template #footer>
-            <b-pagination
-                v-model="currentPage"
-                :total-rows="Films.totalFilms"
-                :per-page="Films.perPage"
-                first-number
-                last-number
-            ></b-pagination>
+            <div style="display: flex; justify-content: center;">
+                <b-pagination
+                class="custom-pagination"
+                    v-if="SortFilmStore.hadSorted"
+                    v-model="currentPage"
+                    :total-rows="SortFilmStore.totalFilms"
+                    :per-page="SortFilmStore.perPage"
+                    first-number
+                    last-number
+                ></b-pagination>
+                <b-pagination
+                class="custom-pagination"
+                    v-else
+                    v-model="currentPage"
+                    :total-rows="Films.totalFilms"
+                    :per-page="Films.perPage"
+                    first-number
+                    last-number
+                ></b-pagination>
+            </div>
         </template>
     </main-block>
 </template>
 
 <style>
+
+.custom-pagination .page-item.active .page-link {
+    background-color: yellow; 
+    border-color: rgb(0, 0, 0); 
+    color: rgb(0, 0, 0);
+}
+
+.custom-pagination .page-item .page-link {
+    background-color: #1a191f;
+    border-color: rgb(0, 0, 0);
+    color: white;
+}
+
 .movies {
     display: flex;
     flex-wrap: wrap; /*чтоб переходили по строчкам */

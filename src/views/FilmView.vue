@@ -9,7 +9,7 @@ import MovieCircle from "@/components/MovieCircle.vue"
 const LocalStore = useLocalStore()
 const Films = useFilmStore()
 
-import { ref, onMounted } from "vue"
+import { ref, onMounted, computed } from "vue"
 
 const isBackgroundLoaded = ref(false)
 const backgroundImageUrl = Films.selectedFilmInfo[0].poster.url
@@ -24,12 +24,20 @@ onMounted(() => {
     Films.currentView = 2
 })
 
+const toggleBookmark = computed(() => {
+    return LocalStore.bookmarks_ids.includes(
+        Films.selectedFilmInfo[0].externalId._id
+    )
+        ? "movie__average_0 add_bookmark"
+        : "movie__average_0 pop_bookmark"
+})
+
 const rate = ref(0)
 </script>
 
 <template>
     <main-block>
-        <template #header></template>
+        <template #header> </template>
         <template #container>
             <div
                 v-if="isBackgroundLoaded"
@@ -38,6 +46,7 @@ const rate = ref(0)
                     backgroundImage: `url(${Films.selectedFilmInfo[0].poster.url})`,
                 }"
             >
+                <span class="return"  @click.prevent="$router.push(`${'/'}`)">&lt;-</span>
                 <div class="film_poster">
                     <img
                         :src="Films.selectedFilmInfo[0].poster.previewUrl"
@@ -54,7 +63,7 @@ const rate = ref(0)
                             backgroundColor: LocalStore.bookmarks_ids.includes(
                                 Films.selectedFilmInfo[0].externalId._id
                             )
-                                ? 'red'
+                                ? 'yellow'
                                 : 'transparent',
                         }"
                     ></div>
@@ -104,8 +113,10 @@ const rate = ref(0)
                     </div>
                     <div class="recommand">
                         {{ Films.getRecommandFilms(Films.selectedFilmInfo[0]) }}
-                        <h4>Смотреть похожие:</h4>
-                        <div class = "film_circles">
+                        <h4 v-if="Films.recommandFilms.length !== 0">
+                            Смотреть похожие:
+                        </h4>
+                        <div class="film_circles">
                             <movie-circle
                                 debounce="500"
                                 v-for="(movie, index) in Films.recommandFilms"
@@ -121,11 +132,22 @@ const rate = ref(0)
 </template>
 
 <style scoped>
+.return {
+    background-color: #000000;
+    height: 40px;
+    width: 40px;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 30px;
+    cursor: pointer;
+}
 .bg-image {
     /* Установите URL фонового изображения */
-    /* background-size: cover; */
+    background-size: cover;
     background-size: auto 100%;
-    background-repeat: no-repeat;
     opacity: 0.8;
     background-position: right center;
 }
@@ -137,7 +159,9 @@ const rate = ref(0)
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    min-height: 95vh;
+    height: 100vh;
+    margin: auto;
     background-color: rgba(
         0,
         0,
@@ -151,15 +175,16 @@ const rate = ref(0)
     display: flex;
     align-items: center;
     background-color: bisque;
-    height: 95vh;
+    min-height: 95vh;
+    height: 100vh;
     left: 0;
     right: 0;
-    overflow-y: inherit;
+    overflow-y: scroll;
     flex-direction: row;
 }
 
 .film_container .film_poster {
-    background-color: aquamarine;
+    background-color: rgb(0, 0, 0);
     height: 360px;
     width: 240px;
     min-height: 360px;
@@ -172,7 +197,6 @@ const rate = ref(0)
 .film_container .film_text {
     max-height: 360px;
     width: 50vw;
-    height: 100%;
 }
 
 .movie__cover {
@@ -180,55 +204,32 @@ const rate = ref(0)
     height: 100%;
 }
 
-.movie__average {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #1a191f;
-    color: #fff;
-    font-size: 14px;
-    border: 1px solid green;
-}
-
 .movie__average_0 {
     position: absolute;
     top: 10px;
     right: 10px;
-    /* border-radius: 50%; */
     width: 30px;
     height: 30px;
     color: azure;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("@/assets/bookmark.svg");
+    background-image: url("@/assets/bookmark.png");
     background-repeat: none;
     cursor: pointer;
 }
 
-.movie__average .bookmark {
-    right: 10px;
-    background-image: url("@/assets/bookmark.svg");
-    background-repeat: none;
-    cursor: pointer;
+.movie__average_0 .pop_bookmark {
+    background-image: url("@/assets/bookmark.png") !important;
+}
+
+.movie__average_0 .add_bookmark {
+    background-image: url("@/assets/bookmark_push.png") !important;
 }
 
 .rated {
     color: gold;
 }
-
-/* .film_card{
-    align-self: center;
-    width: 300px;
-    height: 450px;
-    background-color: blue;
-} */
 
 .recommand {
     margin-top: 40px;
@@ -236,10 +237,9 @@ const rate = ref(0)
     position: relative;
 }
 
-.film_circles{
-   display: flex; 
-   flex-direction: row;
-   justify-content: flex-start
+.film_circles {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
-
 </style>

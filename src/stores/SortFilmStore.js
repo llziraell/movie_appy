@@ -15,6 +15,11 @@ export const useSortFilmStore = defineStore("SortFilms", {
         minTime: 0,
         maxTime: 0,
         openSortMenu: false,
+
+        //для пагинации
+        currentPage: 1,
+        perPage: 25,
+        totalFilms: 0,
     }),
     actions: {
         updateOpenSortMenu() {
@@ -48,7 +53,8 @@ export const useSortFilmStore = defineStore("SortFilms", {
                 this.maxTime = maxTime.movieLength
             }
         },
-        sortFilms(year, mark, time, films) {   //сортировка по нажатию кнопки) - переделать функцию)
+        sortFilms(year, mark, time, films) {
+            //сортировка по нажатию кнопки) - переделать функцию)
             if (year || mark || time) {
                 this.sortedFilms = films.filter((film) => {
                     let byYear =
@@ -67,6 +73,11 @@ export const useSortFilmStore = defineStore("SortFilms", {
                 this.sortedFilms = films
                 alert("фильтр не найден =(")
             }
+            if (this.sortedFilms.length === 0) {
+                this.sortedFilms = films
+                alert("фильтр не смог найти ничего подобного")
+            }
+            this.totalFilms = this.sortedFilms.length
             this.openSortMenu = !this.openSortMenu
             this.hadSorted = true
         },
