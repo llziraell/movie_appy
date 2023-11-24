@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
-
 import { useFilmStore } from "./FilmStore"
 
 export const useLocalStore = defineStore("localStore", {

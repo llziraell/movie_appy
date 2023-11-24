@@ -2,9 +2,6 @@
 import { RouterView } from "vue-router"
 import { onMounted } from "vue"
 
-
-
-
 const clearLocalStorage = () => {
     localStorage.clear()
     localStorage.setItem("rates", JSON.stringify([]))
@@ -17,8 +14,3 @@ onMounted(clearLocalStorage)
         <RouterView />
     </div>
 </template>
-
-<style lang = "scss">
-//@import '@/assets/main.scss'
-
-</style>

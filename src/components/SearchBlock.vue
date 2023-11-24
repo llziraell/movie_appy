@@ -1,16 +1,10 @@
 <script setup>
-import { ref, watch } from "vue"
+import { ref } from "vue"
 import { useFilmStore } from "@/stores/FilmStore"
 const Films = useFilmStore()
 
 const inputFilm = ref("")
 
-watch(
-    () => Films.selectedName,
-    (newVal) => {
-        inputFilm.value = newVal
-    }
-)
 </script>
 
 <template>
