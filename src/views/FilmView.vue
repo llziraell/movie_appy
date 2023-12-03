@@ -37,7 +37,7 @@ const rate = ref(0)
                     backgroundImage: `url(${Films.selectedFilmInfo[0].poster.url})`,
                 }"
             >
-                <span class="return"  @click.prevent="$router.push(`${'/'}`)">&lt;-</span>
+                <span class="return"  @click="$router.push(`${'/'}`)">&lt;-</span>
                 <div class="film_poster">
                     <img
                         :src="Films.selectedFilmInfo[0].poster.previewUrl"
