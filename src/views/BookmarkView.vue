@@ -17,9 +17,9 @@ const selectNav = ref("")
 const currentPage = ref(1)
 
 //возможно даже убрать)
-watch(currentPage, (newPage) => {
-    currentPage = newPage
-})
+// watch(currentPage, (newPage) => {
+//     currentPage = newPage
+// })
 
 onMounted(() => {
     Films.currentView = 1
