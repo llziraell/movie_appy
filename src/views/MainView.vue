@@ -43,7 +43,7 @@ const paginatedFilms = computed(() => {
 <template>
     <MainBlock>
         <template #header>
-            <NavBar></NavBar>
+            <NavBar />
         </template>
         <template #container>
             <div v-if="SortFilmStore.hadSorted">
@@ -85,7 +85,7 @@ const paginatedFilms = computed(() => {
                     :per-page="SortFilmStore.perPage"
                     first-number
                     last-number
-                ></b-pagination>
+                />
                 <b-pagination
                     class="custom-pagination"
                     v-else
@@ -94,7 +94,7 @@ const paginatedFilms = computed(() => {
                     :per-page="Films.perPage"
                     first-number
                     last-number
-                ></b-pagination>
+                />
             </div>
         </template>
     </MainBlock>

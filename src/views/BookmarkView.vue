@@ -29,7 +29,7 @@ onMounted(() => {
 <template>
     <MainBlock>
         <template #header>
-            <NavBar></NavBar>
+            <NavBar />
         </template>
         <template #container>
             <div>

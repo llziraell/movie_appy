@@ -1,7 +1,6 @@
 <script setup>
 import SearchBlock from "@/components/SearchBlock.vue"
 import SortBlock from "./SortBlock.vue"
-
 </script>
 
 <template>
@@ -23,7 +22,7 @@ import SortBlock from "./SortBlock.vue"
             </b-nav-item>
             <b-nav-item>{{ $route.params.componentName }}</b-nav-item>
         </b-navbar-nav>
-        <SortBlock></SortBlock>
-        <SearchBlock></SearchBlock>
+        <SortBlock />
+        <SearchBlock />
     </b-navbar>
 </template>

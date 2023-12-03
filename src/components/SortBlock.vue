@@ -16,7 +16,6 @@ const status3 = ref(false)
 const value1 = ref("")
 const value2 = ref("")
 const value3 = ref("")
-
 </script>
 
 <template style="position: relative">
@@ -41,7 +40,7 @@ const value3 = ref("")
                     type="range"
                     :min="SortFilms.minYear"
                     :max="SortFilms.maxYear"
-                ></b-form-input>
+                />
             </div>
             <div class="dropdown_item">
                 <b-form-checkbox
@@ -50,7 +49,6 @@ const value3 = ref("")
                     name="checkbox-1"
                     >Рейтинг: {{ value2 }}
                 </b-form-checkbox>
-                <div id="slider"></div>
                 <b-form-input
                     :disabled="!status2"
                     id="range-2"
@@ -58,7 +56,7 @@ const value3 = ref("")
                     type="range"
                     :min="SortFilms.minMark"
                     :max="SortFilms.maxMark"
-                ></b-form-input>
+                />
             </div>
             <div class="dropdown_item">
                 <b-form-checkbox
@@ -75,7 +73,7 @@ const value3 = ref("")
                     :min="SortFilms.minTime > 10 ? 30 : 10"
                     :max="SortFilms.maxTime"
                     :step="20"
-                ></b-form-input>
+                />
             </div>
             <b-button
                 v-if="Films.currentView === 0"
@@ -130,8 +128,8 @@ const value3 = ref("")
     </div>
 </template>
 
-<style lang = "scss">
-@import '@/assets/main.scss';
+<style lang="scss">
+@import "@/assets/main.scss";
 
 .dropdown {
     position: absolute;

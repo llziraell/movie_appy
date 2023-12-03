@@ -28,7 +28,7 @@ const rate = ref(0)
 
 <template>
     <MainBlock>
-        <template #header> </template>
+        <template #header />
         <template #container>
             <div
                 v-if="isBackgroundLoaded"
@@ -113,7 +113,7 @@ const rate = ref(0)
                                 v-for="(movie, index) in Films.recommendFilms"
                                 :key="index"
                                 :movieData="movie"
-                            ></MovieRecommend>
+                            />
                         </div>
                     </div>
                 </div>
