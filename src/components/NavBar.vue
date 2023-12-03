@@ -1,8 +1,6 @@
 <script setup>
 import SearchBlock from "@/components/SearchBlock.vue"
 import SortBlock from "./SortBlock.vue"
-
-props: ["selectNav"]
 </script>
 
 <template>
@@ -15,16 +13,16 @@ props: ["selectNav"]
             <b-navbar-brand
                 href="#"
                 class="text-white"
-                @click.prevent="$router.push(`${'/'}`)"
+                @click="$router.push(`${'/'}`)"
                 style="margin-top: 6px"
                 >ПоискКино</b-navbar-brand
             >
-            <b-nav-item @click.prevent="$router.push(`${'bookmark'}`)">
+            <b-nav-item @click="$router.push(`${'bookmark'}`)">
                 <b-nav-text style="color: gold">Избранное</b-nav-text>
             </b-nav-item>
             <b-nav-item>{{ $route.params.componentName }}</b-nav-item>
         </b-navbar-nav>
-        <sort-block :selectNav="selectNav"></sort-block>
-        <search-block></search-block>
+        <SortBlock />
+        <SearchBlock />
     </b-navbar>
 </template>

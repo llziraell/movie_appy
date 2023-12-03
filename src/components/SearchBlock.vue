@@ -4,7 +4,6 @@ import { useFilmStore } from "@/stores/FilmStore"
 const Films = useFilmStore()
 
 const inputFilm = ref("")
-
 </script>
 
 <template>
@@ -21,7 +20,7 @@ const inputFilm = ref("")
                     size="sm"
                     placeholder="Ищу фильм..."
                     @input="Films.searchFilms(inputFilm)"
-                ></b-form-input>
+                />
             </template>
             <b-dropdown-item
                 v-for="filmName in Films.searchedFilms"
@@ -30,17 +29,18 @@ const inputFilm = ref("")
             >
         </b-dropdown>
         <b-button
-            style="margin-left: 5px; text-align: center"
-            @click="
-                inputFilm = '',
-                Films.selectedName = ''
-            "
+            class="search_btn"
+            @click=";(inputFilm = ''), (Films.selectedName = '')"
             >x</b-button
         >
     </b-nav-form>
 </template>
 
 <style scoped>
+.search_btn {
+    margin-left: 5px;
+    text-align: center;
+}
 .dropdown-container {
     max-height: 200px;
     overflow-y: auto;

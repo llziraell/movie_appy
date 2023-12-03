@@ -27,8 +27,8 @@ const rate = ref(0)
 </script>
 
 <template>
-    <main-block>
-        <template #header> </template>
+    <MainBlock>
+        <template #header />
         <template #container>
             <div
                 v-if="isBackgroundLoaded"
@@ -37,7 +37,7 @@ const rate = ref(0)
                     backgroundImage: `url(${Films.selectedFilmInfo[0].poster.url})`,
                 }"
             >
-                <span class="return"  @click.prevent="$router.push(`${'/'}`)">&lt;-</span>
+                <span class="return"  @click="$router.push(`${'/'}`)">&lt;-</span>
                 <div class="film_poster">
                     <img
                         :src="Films.selectedFilmInfo[0].poster.previewUrl"
@@ -108,18 +108,18 @@ const rate = ref(0)
                             Смотреть похожие:
                         </h4>
                         <div class="film_circles">
-                            <movie-recommend
+                            <MovieRecommend
                                 debounce="500"
                                 v-for="(movie, index) in Films.recommendFilms"
                                 :key="index"
                                 :movieData="movie"
-                            ></movie-recommend>
+                            />
                         </div>
                     </div>
                 </div>
             </div>
         </template>
-    </main-block>
+    </MainBlock>
 </template>
 
 <style lang = "scss">

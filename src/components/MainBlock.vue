@@ -1,19 +1,19 @@
 <template>
     <div>
         <header>
-            <slot name="header"> </slot>
+            <slot name="header"></slot>
         </header>
         <div class="container">
             <slot name="container"></slot>
         </div>
         <footer class="footer">
-            <slot name="footer"> </slot>
+            <slot name="footer"></slot>
         </footer>
     </div>
 </template>
 
 <style lang="scss">
-@import '@/assets/main.scss';
+@import "@/assets/main.scss";
 
 .container {
     background-color: $main-bg-color;

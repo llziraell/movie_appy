@@ -1,12 +1,21 @@
 <script setup>
-import { defineProps } from "vue"
-const { props } = defineProps(["movieData"])
-
+import { defineProps, computed, ref } from "vue"
 import { useLocalStore } from "@/stores/LocalStore"
 import { useFilmStore } from "@/stores/FilmStore"
 
 const Films = useFilmStore()
 const LocalStore = useLocalStore()
+
+const props = defineProps({
+    movieData: []
+});
+
+const movieData_props = ref(null)
+movieData_props.value = props.movieData
+
+const bookmarkColor = computed(() => {
+    return LocalStore.bookmarks_ids.includes(movieData_props.value.externalId._id) ? "yellow" : "transparent"
+})
 </script>
 
 <template>
@@ -31,20 +40,14 @@ const LocalStore = useLocalStore()
             <div
                 class="movie__average_bookmark"
                 @click="LocalStore.toggleBookmark(movieData.externalId._id)"
-                :style="{
-                    backgroundColor: LocalStore.bookmarks_ids.includes(
-                        movieData.externalId._id
-                    )
-                        ? 'yellow'
-                        : 'transparent',
-                }"
+                :style="{ backgroundColor: bookmarkColor }"
             ></div>
         </div>
     </div>
 </template>
 
 <style lang="scss">
-@import '@/assets/main.scss';
+@import "@/assets/main.scss";
 .movie {
     @include movie_base;
     width: 240px;

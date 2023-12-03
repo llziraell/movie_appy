@@ -27,9 +27,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <main-block>
+    <MainBlock>
         <template #header>
-            <nav-bar></nav-bar>
+            <NavBar />
         </template>
         <template #container>
             <div>
@@ -57,12 +57,12 @@ onMounted(() => {
                     class="movies overflow-auto pusto"
                     v-if="selectNav === 'bookmarks'"
                 >
-                    <movie-card
+                    <MovieCard
                         v-if="SortFilms.hadSorted"
                         v-for="movie in SortFilms.sortedFilms"
                         :movieData="movie"
-                    ></movie-card>
-                    <movie-card
+                    />
+                    <MovieCard
                         v-else
                         v-for="(movie, index) in LocalStore.bookmarks"
                         :key="index"
@@ -73,12 +73,12 @@ onMounted(() => {
                     v-else-if="selectNav === 'favourite'"
                     class="movies overflow-auto pusto"
                 >
-                    <movie-card
+                    <MovieCard
                         v-if="SortFilms.hadSorted"
                         v-for="movie in SortFilms.sortedFilms"
                         :movieData="movie"
-                    ></movie-card>
-                    <movie-card
+                    />
+                    <MovieCard
                         v-else
                         v-for="(movie, index) in LocalStore.getMarkedFilms()"
                         :key="index"
@@ -98,18 +98,18 @@ onMounted(() => {
                 </div>
             </div>
         </template>
-    </main-block>
+    </MainBlock>
 </template>
 
-<style lang = "scss">
-@import '@/assets/main.scss';
+<style lang="scss">
+@import "@/assets/main.scss";
 
 .pusto {
     height: 100vh;
 }
 
 .text_bookmarks_view {
-    color:  $default-text-color;
+    color: $default-text-color;
     text-align: center;
     width: 800px;
     margin-top: 50px;

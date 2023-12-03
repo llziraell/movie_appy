@@ -41,17 +41,17 @@ const paginatedFilms = computed(() => {
 </script>
 
 <template>
-    <main-block>
+    <MainBlock>
         <template #header>
-            <nav-bar></nav-bar>
+            <NavBar />
         </template>
         <template #container>
             <div v-if="SortFilmStore.hadSorted">
                 <div class="movies overflow-auto">
-                    <movie-card
+                    <MovieCard
                         v-for="movie in paginatedFilms(SortFilmStore)"
                         :movieData="movie"
-                    ></movie-card>
+                    />
                 </div>
             </div>
             <div v-else>
@@ -59,13 +59,13 @@ const paginatedFilms = computed(() => {
                     class="selected_movie"
                     v-if="Films.selectedName !== ''"
                 >
-                    <movie-card :movieData="Films.selectedFilm"></movie-card>
+                    <MovieCard :movieData="Films.selectedFilm" />
                     <div class="title-line">
                         <span :openAllFilms="true">Другие</span>
                     </div>
                 </div>
                 <div class="movies overflow-auto">
-                    <movie-card
+                    <MovieCard
                         v-if="Films.films && openAllFilms"
                         debounce="500"
                         v-for="(movie, index) in paginatedFilms(Films)"
@@ -76,35 +76,35 @@ const paginatedFilms = computed(() => {
             </div>
         </template>
         <template #footer>
-            <div style="display: flex; justify-content: center;">
+            <div class="pagination">
                 <b-pagination
-                class="custom-pagination"
+                    class="custom-pagination"
                     v-if="SortFilmStore.hadSorted"
                     v-model="currentPage"
                     :total-rows="SortFilmStore.totalFilms"
                     :per-page="SortFilmStore.perPage"
                     first-number
                     last-number
-                ></b-pagination>
+                />
                 <b-pagination
-                class="custom-pagination"
+                    class="custom-pagination"
                     v-else
                     v-model="currentPage"
                     :total-rows="Films.totalFilms"
                     :per-page="Films.perPage"
                     first-number
                     last-number
-                ></b-pagination>
+                />
             </div>
         </template>
-    </main-block>
+    </MainBlock>
 </template>
 
-<style lang = "scss">
-@import '@/assets/main.scss';
+<style lang="scss">
+@import "@/assets/main.scss";
 
 .custom-pagination .page-item.active .page-link {
-    background-color: $rated; 
+    background-color: $rated;
     border-color: $default_bg_color;
     color: $default_bg_color;
 }
@@ -117,7 +117,7 @@ const paginatedFilms = computed(() => {
 
 .movies {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     justify-content: space-around;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -154,5 +154,10 @@ const paginatedFilms = computed(() => {
     left: 0;
     width: 100%;
     border-top: 2px solid $default-text-color;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
 }
 </style>
