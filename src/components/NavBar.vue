@@ -23,7 +23,7 @@ import SortBlock from "./SortBlock.vue"
             </b-nav-item>
             <b-nav-item>{{ $route.params.componentName }}</b-nav-item>
         </b-navbar-nav>
-        <sort-block></sort-block>
-        <search-block></search-block>
+        <SortBlock></SortBlock>
+        <SearchBlock></SearchBlock>
     </b-navbar>
 </template>

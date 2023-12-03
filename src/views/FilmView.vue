@@ -27,7 +27,7 @@ const rate = ref(0)
 </script>
 
 <template>
-    <main-block>
+    <MainBlock>
         <template #header> </template>
         <template #container>
             <div
@@ -108,18 +108,18 @@ const rate = ref(0)
                             Смотреть похожие:
                         </h4>
                         <div class="film_circles">
-                            <movie-recommend
+                            <MovieRecommend
                                 debounce="500"
                                 v-for="(movie, index) in Films.recommendFilms"
                                 :key="index"
                                 :movieData="movie"
-                            ></movie-recommend>
+                            ></MovieRecommend>
                         </div>
                     </div>
                 </div>
             </div>
         </template>
-    </main-block>
+    </MainBlock>
 </template>
 
 <style lang = "scss">

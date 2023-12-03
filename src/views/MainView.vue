@@ -41,17 +41,17 @@ const paginatedFilms = computed(() => {
 </script>
 
 <template>
-    <main-block>
+    <MainBlock>
         <template #header>
-            <nav-bar></nav-bar>
+            <NavBar></NavBar>
         </template>
         <template #container>
             <div v-if="SortFilmStore.hadSorted">
                 <div class="movies overflow-auto">
-                    <movie-card
+                    <MovieCard
                         v-for="movie in paginatedFilms(SortFilmStore)"
                         :movieData="movie"
-                    ></movie-card>
+                    />
                 </div>
             </div>
             <div v-else>
@@ -59,13 +59,13 @@ const paginatedFilms = computed(() => {
                     class="selected_movie"
                     v-if="Films.selectedName !== ''"
                 >
-                    <movie-card :movieData="Films.selectedFilm"></movie-card>
+                    <MovieCard :movieData="Films.selectedFilm" />
                     <div class="title-line">
                         <span :openAllFilms="true">Другие</span>
                     </div>
                 </div>
                 <div class="movies overflow-auto">
-                    <movie-card
+                    <MovieCard
                         v-if="Films.films && openAllFilms"
                         debounce="500"
                         v-for="(movie, index) in paginatedFilms(Films)"
@@ -97,7 +97,7 @@ const paginatedFilms = computed(() => {
                 ></b-pagination>
             </div>
         </template>
-    </main-block>
+    </MainBlock>
 </template>
 
 <style lang="scss">
