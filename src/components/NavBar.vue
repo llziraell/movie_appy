@@ -2,7 +2,6 @@
 import SearchBlock from "@/components/SearchBlock.vue"
 import SortBlock from "./SortBlock.vue"
 
-props: ["selectNav"]
 </script>
 
 <template>
@@ -24,7 +23,7 @@ props: ["selectNav"]
             </b-nav-item>
             <b-nav-item>{{ $route.params.componentName }}</b-nav-item>
         </b-navbar-nav>
-        <sort-block :selectNav="selectNav"></sort-block>
+        <sort-block></sort-block>
         <search-block></search-block>
     </b-navbar>
 </template>

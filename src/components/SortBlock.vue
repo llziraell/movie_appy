@@ -17,7 +17,6 @@ const value1 = ref("")
 const value2 = ref("")
 const value3 = ref("")
 
-props: ["selectNav"]
 </script>
 
 <template style="position: relative">
