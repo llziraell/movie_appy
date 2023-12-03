@@ -76,9 +76,9 @@ const paginatedFilms = computed(() => {
             </div>
         </template>
         <template #footer>
-            <div style="display: flex; justify-content: center;">
+            <div class="pagination">
                 <b-pagination
-                class="custom-pagination"
+                    class="custom-pagination"
                     v-if="SortFilmStore.hadSorted"
                     v-model="currentPage"
                     :total-rows="SortFilmStore.totalFilms"
@@ -87,7 +87,7 @@ const paginatedFilms = computed(() => {
                     last-number
                 ></b-pagination>
                 <b-pagination
-                class="custom-pagination"
+                    class="custom-pagination"
                     v-else
                     v-model="currentPage"
                     :total-rows="Films.totalFilms"
@@ -100,11 +100,11 @@ const paginatedFilms = computed(() => {
     </main-block>
 </template>
 
-<style lang = "scss">
-@import '@/assets/main.scss';
+<style lang="scss">
+@import "@/assets/main.scss";
 
 .custom-pagination .page-item.active .page-link {
-    background-color: $rated; 
+    background-color: $rated;
     border-color: $default_bg_color;
     color: $default_bg_color;
 }
@@ -117,7 +117,7 @@ const paginatedFilms = computed(() => {
 
 .movies {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     justify-content: space-around;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -154,5 +154,10 @@ const paginatedFilms = computed(() => {
     left: 0;
     width: 100%;
     border-top: 2px solid $default-text-color;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
 }
 </style>
